@@ -27,6 +27,8 @@
         android:theme="@style/Theme.App0907"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
+
         <activity
             android:name=".MainActivity"
             android:exported="false" />
