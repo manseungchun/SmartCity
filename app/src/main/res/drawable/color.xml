@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--바텀 네비게이션뷰에 아이콘들 선택 했을 때 색깔-->
+    <item android:color = "#2DB400" android:state_selected="true"/>
+    <!--선택하지 않았을 때 색깔-->
+    <item android:color = "#BDBDBD" android:state_selected="false"/>
+</selector>

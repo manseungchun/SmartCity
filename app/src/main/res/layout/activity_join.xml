@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/JoinName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="이름을 입력하세요"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="@+id/JoinPw2"
+        app:layout_constraintStart_toStartOf="@+id/JoinPw2"
+        app:layout_constraintTop_toBottomOf="@+id/JoinPw2" />
+
+    <TextView
+        android:id="@+id/textView30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/jua"
+        android:text="이름"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/JoinName"
+        app:layout_constraintStart_toStartOf="@+id/textView29"
+        app:layout_constraintTop_toTopOf="@+id/JoinName"
+        app:layout_constraintVertical_bias="0.565" />
+
+    <TextView
+        android:id="@+id/textView29"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/jua"
+        android:text="비밀번호확인"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/JoinPw2"
+        app:layout_constraintStart_toStartOf="@+id/textView32"
+        app:layout_constraintTop_toTopOf="@+id/JoinPw2"
+        app:layout_constraintVertical_bias="0.695" />
+
+    <EditText
+        android:id="@+id/JoinPw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="PW를 입력하세요"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="@+id/JoinId"
+        app:layout_constraintStart_toStartOf="@+id/JoinId"
+        app:layout_constraintTop_toBottomOf="@+id/JoinId" />
+
+    <TextView
+        android:id="@+id/textView25"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="#2DB400"
+        android:fontFamily="@font/jua"
+        android:gravity="center"
+        android:text="  국민픽서"
+        android:textAlignment="viewStart"
+        android:textColor="#FFFFFF"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView15"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.961"
+        app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/login2" />
+
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/lemon"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/loginbtn"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/JoinPw2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="다시한번 PW를 입력하세요"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="@+id/JoinPw"
+        app:layout_constraintStart_toStartOf="@+id/JoinPw"
+        app:layout_constraintTop_toBottomOf="@+id/JoinPw" />
+
+    <TextView
+        android:id="@+id/textView32"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/jua"
+        android:text="비밀번호"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/JoinPw"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="@+id/JoinPw"
+        app:layout_constraintVertical_bias="0.521" />
+
+    <EditText
+        android:id="@+id/JoinId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="62dp"
+        android:ems="10"
+        android:hint="ID를 입력하세요"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView25" />
+
+    <EditText
+        android:id="@+id/JoinAddr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="주소를 입력하세요"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="@+id/JoinName"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/JoinName"
+        app:layout_constraintTop_toBottomOf="@+id/JoinName" />
+
+    <TextView
+        android:id="@+id/textView33"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/jua"
+        android:text="주소"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/JoinAddr"
+        app:layout_constraintStart_toStartOf="@+id/textView30"
+        app:layout_constraintTop_toTopOf="@+id/JoinAddr"
+        app:layout_constraintVertical_bias="0.478" />
+
+    <EditText
+        android:id="@+id/JoinCall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="50dp"
+        android:ems="10"
+        android:hint="휴대폰번호를 입력하세요"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/JoinBtn"
+        app:layout_constraintEnd_toEndOf="@+id/JoinAddr"
+        app:layout_constraintStart_toStartOf="@+id/JoinAddr"
+        app:layout_constraintTop_toBottomOf="@+id/JoinAddr"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView34"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/jua"
+        android:text="휴대폰번호"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/JoinCall"
+        app:layout_constraintStart_toStartOf="@+id/textView33"
+        app:layout_constraintTop_toTopOf="@+id/JoinCall"
+        app:layout_constraintVertical_bias="0.391" />
+
+    <Button
+        android:id="@+id/JoinBtn"
+        android:layout_width="149dp"
+        android:layout_height="59dp"
+        android:layout_marginBottom="90dp"
+        android:backgroundTint="#2DB400"
+        android:fontFamily="@font/jua"
+        android:text="회원가입"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:fontFamily="@font/jua"
+        android:text="아이디"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/JoinId"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/JoinId"
+        app:layout_constraintVertical_bias="0.565" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
