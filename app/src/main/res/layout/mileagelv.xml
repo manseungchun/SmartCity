@@ -6,40 +6,44 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/textView10"
         android:layout_width="0dp"
         android:layout_height="92dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView16"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:id="@+id/imageView"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         app:layout_constraintBottom_toBottomOf="@+id/textView11"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/mainlogo2" />
+        app:srcCompat="@drawable/moneyback" />
 
     <TextView
-        android:id="@+id/textView22"
+        android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="18dp"
+        android:fontFamily="@font/jua"
+        android:text="적립포인트 : 0point"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/jua"
-        android:text="신고일자 : 2022/09/26"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="82dp" />
-
-    <TextView
-        android:id="@+id/textView23"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/jua"
-        android:text="적립포인트 : 100point"
-        tools:layout_editor_absoluteX="82dp"
-        tools:layout_editor_absoluteY="55dp" />
-
+        android:text="사용포인트 : -100point"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
 </androidx.constraintlayout.widget.ConstraintLayout>
