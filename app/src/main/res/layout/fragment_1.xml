@@ -101,41 +101,41 @@
         app:layout_constraintVertical_bias="0.945" />
 
     <ImageView
-        android:id="@+id/ckimg1"
+        android:id="@+id/ckimv1"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="7dp"
         android:src="@drawable/crack"
-        app:layout_constraintEnd_toStartOf="@+id/ckimg2"
+        app:layout_constraintEnd_toStartOf="@+id/ckimv2"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <ImageView
-        android:id="@+id/ckimg2"
+        android:id="@+id/ckimv2"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginEnd="7dp"
-        android:src="@drawable/crack"
-        app:layout_constraintBottom_toBottomOf="@+id/ckimg1"
-        app:layout_constraintEnd_toStartOf="@+id/ckimg3"
+        android:src="@drawable/crack2"
+        app:layout_constraintBottom_toBottomOf="@+id/ckimv1"
+        app:layout_constraintEnd_toStartOf="@+id/ckimv3"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/ckimg1"
-        app:layout_constraintTop_toTopOf="@+id/ckimg1" />
+        app:layout_constraintStart_toEndOf="@+id/ckimv1"
+        app:layout_constraintTop_toTopOf="@+id/ckimv1" />
 
     <ImageView
-        android:id="@+id/ckimg3"
+        android:id="@+id/ckimv3"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginEnd="16dp"
-        android:src="@drawable/crack"
-        app:layout_constraintBottom_toBottomOf="@+id/ckimg2"
+        android:src="@drawable/crack3"
+        app:layout_constraintBottom_toBottomOf="@+id/ckimv2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/ckimg2"
-        app:layout_constraintTop_toTopOf="@+id/ckimg2" />
+        app:layout_constraintStart_toEndOf="@+id/ckimv2"
+        app:layout_constraintTop_toTopOf="@+id/ckimv2" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -147,5 +147,25 @@
         app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toTopOf="@+id/textView3"
         app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/leftbtn"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="4dp"
+        android:src="@drawable/leftarrow"
+        app:layout_constraintBottom_toBottomOf="@+id/ckimv1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ckimv1" />
+
+    <ImageView
+        android:id="@+id/rightbtn"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="4dp"
+        android:src="@drawable/rightarrow"
+        app:layout_constraintBottom_toBottomOf="@+id/ckimv3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ckimv3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

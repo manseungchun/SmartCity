@@ -28,14 +28,14 @@ import java.util.Map;
 
 
 public class Fragment1 extends Fragment {
-
-    ImageView loginbtn;
-    ImageView logoutbtn;
-
+    int[] imgs = {R.drawable.crack,R.drawable.crack2,R.drawable.crack3,R.drawable.crack4
+            ,R.drawable.crack5,R.drawable.crack6,R.drawable.crack7,R.drawable.crack8
+            ,R.drawable.crack9};
+    int idx=0;
+    ImageView loginbtn,logoutbtn,leftbtn,rightbtn;
+    ImageView ckimv1,ckimv2,ckimv3;
     String name;
-
     ImageButton imageButton;
-
     RequestQueue requestQueue;
 
     @Override
@@ -46,6 +46,12 @@ public class Fragment1 extends Fragment {
         loginbtn = view.findViewById(R.id.loginbtn);
         logoutbtn = view.findViewById(R.id.logoutbtn);
         imageButton = view.findViewById(R.id.imageButton);
+        leftbtn = view.findViewById(R.id.leftbtn);
+        rightbtn = view.findViewById(R.id.rightbtn);
+
+        ckimv1 = view.findViewById(R.id.ckimv1);
+        ckimv2 = view.findViewById(R.id.ckimv2);
+        ckimv3 = view.findViewById(R.id.ckimv3);
 
         if (requestQueue == null) {
             requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
@@ -103,6 +109,36 @@ public class Fragment1 extends Fragment {
                 startActivity(intent);
             }
         });
+
+        rightbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(idx==imgs.length-3){
+                    idx=0;
+                }else{
+                    idx++;
+                }
+                ckimv1.setImageResource(imgs[idx]);
+                ckimv2.setImageResource(imgs[idx+1]);
+                ckimv3.setImageResource(imgs[idx+2]);
+            }
+        });
+
+        leftbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(idx==0){
+                    idx=imgs.length-3;
+                }else{
+                    idx--;
+                }
+                ckimv1.setImageResource(imgs[idx]);
+                ckimv2.setImageResource(imgs[idx+1]);
+                ckimv3.setImageResource(imgs[idx+2]);
+            }
+        });
+        
+
 
         return view;
     }
