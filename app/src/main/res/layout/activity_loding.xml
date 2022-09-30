@@ -6,8 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".LodingActivity">
 
+
+
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageView30"
         android:layout_width="291dp"
         android:layout_height="279dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -16,6 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.457"
         app:srcCompat="@drawable/spanner3" />
+
 
     <TextView
         android:id="@+id/textView31"
@@ -26,5 +29,5 @@
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView30" />
 </androidx.constraintlayout.widget.ConstraintLayout>
