@@ -18,7 +18,7 @@
         android:text="내 신고현황"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
-        app:cornerRadius="10dp"
+        app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
