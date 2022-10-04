@@ -32,6 +32,7 @@ public class sliding extends AppCompatActivity implements AdapterView.OnItemClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sliding);
 
+        //주석주석
         // 텍스트뷰를 변경할때
 //        answer = findViewById(R.id.answer);
 //        answer_ = findViewById(R.id.answer_);
