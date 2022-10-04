@@ -105,37 +105,8 @@ public class Fragment1 extends Fragment {
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
 
-
-
-
             }
         });
-
-
-//        Intent intent = new Intent(getActivity().getIntent());
-//        name = intent.getStringExtra("name");
-//
-//        if(name!=null){
-//            logoutbtn.setVisibility(View.VISIBLE);
-//            loginbtn.setVisibility(View.INVISIBLE);
-//            testtest.setText(name);
-//            logoutbtn.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Toast.makeText(getActivity(), "로그아웃 버튼 클릭", Toast.LENGTH_SHORT).show();
-//                    name = null;
-//                    Toast.makeText(getActivity(), name, Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//        }else if(name == null){
-//            loginbtn.setVisibility(View.VISIBLE);
-//            logoutbtn.setVisibility(View.INVISIBLE);
-//            testtest.setText("로그인하기");
-//        }
-
-
-
-
 
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
