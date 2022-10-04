@@ -19,7 +19,7 @@ import java.util.List;
 
 public class sliding extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    String [] question = {"메뉴얼", "사진", "균열", "크랙", "박리", "마일리지"};
+    String [] question = {"회원가입은 어디서하나요?", "신고는 어떻게 해야하나요?", "위치정보를 꼭 입력해야하나요?", "어떤걸 신고해야하나요?", "신고처리현황은 어디서확인하나요?", "이 외의 다른문의사항이 있어요"};
     String [] answer1 = {"어떻게 이 어플을 사용하나요","로그인 어떻게 하나요","회원가입 어떻게 하나요"};
     String [] answer2 = {"카메라 촬영", "갤러리 선택", "주소는 어떻게 아나요"};
 
@@ -64,7 +64,7 @@ public class sliding extends AppCompatActivity implements AdapterView.OnItemClic
 //        }
 
 
-        Toast.makeText(this, question[i], Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, question[i], Toast.LENGTH_SHORT).show();
 
     }
 }
