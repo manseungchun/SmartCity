@@ -24,26 +24,60 @@
         app:srcCompat="@drawable/mainlogo2" />
 
     <TextView
+        android:id="@+id/textView22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/jua"
+        android:text="적립포인트 : "
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/textView12"
+        app:layout_constraintTop_toBottomOf="@+id/tvDate" />
+
+    <TextView
         android:id="@+id/tvDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginStart="5dp"
         android:fontFamily="@font/jua"
-        android:text="신고일자 : 2022/09/26"
+        android:text="2022/09/26"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/ivImg"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/textView12"
+        app:layout_constraintStart_toEndOf="@+id/textView12"
+        app:layout_constraintTop_toTopOf="@+id/textView12" />
 
     <TextView
         android:id="@+id/tvPoint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:fontFamily="@font/jua"
-        android:text="적립포인트 : 100point"
+        android:text="100"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/tvDate"
-        app:layout_constraintTop_toBottomOf="@+id/tvDate" />
+        app:layout_constraintBottom_toBottomOf="@+id/textView22"
+        app:layout_constraintStart_toEndOf="@+id/textView22"
+        app:layout_constraintTop_toTopOf="@+id/textView22" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="18dp"
+        android:fontFamily="@font/jua"
+        android:text="신고일자 : "
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/ivImg"
+        app:layout_constraintTop_toTopOf="@+id/ivImg" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/jua"
+        android:text=" point"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvPoint"
+        app:layout_constraintStart_toEndOf="@+id/tvPoint"
+        app:layout_constraintTop_toTopOf="@+id/tvPoint" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

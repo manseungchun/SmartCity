@@ -5,22 +5,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.fragment.app.FragmentActivity;
 
 import java.util.ArrayList;
 
-public class ReportAdapter extends BaseAdapter {
+public class MileageAdapter extends BaseAdapter {
 
     // 필드
     private Context context;
     private int layout;
-    private ArrayList<ReportVO> data;
+    private ArrayList<MileageVO> data;
     private LayoutInflater inflater;
 
-    public ReportAdapter(Context context, int layout, ArrayList<ReportVO> data) {
+    public MileageAdapter(Context context, int layout, ArrayList<MileageVO> data) {
         this.context = context;
         this.layout = layout;
         this.data = data;
@@ -49,11 +46,12 @@ public class ReportAdapter extends BaseAdapter {
             view = inflater.inflate(layout,viewGroup,false);
         }
 
-        TextView tvDate = view.findViewById(R.id.tvDate);
-        tvDate.setText(data.get(i).getUploaddate());
+        TextView tvMiledate = view.findViewById(R.id.tvMiledate);
+        tvMiledate.setText(data.get(i).getPointdate());
 
-        TextView tvPoint = view.findViewById(R.id.tvPoint);
-        tvPoint.setText(data.get(i).getPoint_upload());
+        TextView tvMilie = view.findViewById(R.id.tvMile);
+        tvMilie.setText(data.get(i).getPoint());
+
 
         return view;
     }

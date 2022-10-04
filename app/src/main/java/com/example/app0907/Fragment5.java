@@ -18,19 +18,18 @@ public class Fragment5 extends Fragment {
     ListView lv;
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_1, container, false);
+        View view = inflater.inflate(R.layout.fragment_5, container, false);
 
         data = new ArrayList<>();
         lv = view.findViewById(R.id.lv5);
 
         data.add(new ReportVO("2022-10-04","100"));
 
-        ReportAdapter adapter = new ReportAdapter(getActivity(), R.layout.reportlv, data);
+        ReportAdapter adapter = new ReportAdapter(view.getContext(), R.layout.reportlv, data);
 
         lv.setAdapter(adapter);
 
