@@ -1,6 +1,8 @@
 package com.example.app0907;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -73,6 +75,26 @@ public class Fragment1 extends Fragment {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.remove("name");
                 editor.commit();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                builder.setTitle("확인창").setMessage("포인트를 사용하시겠습니까?");
+                builder.setPositiveButton("아니요", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        Toast.makeText(getActivity().getApplicationContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton("예", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        Toast.makeText(getActivity().getApplicationContext(), "3000포인트 사용완료", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
                 try{
                     // TODO 액티비티 화면 재갱신 시키는 코드
                     Intent intent = getActivity().getIntent();

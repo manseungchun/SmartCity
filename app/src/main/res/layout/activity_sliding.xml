@@ -21,45 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textView24"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:background="#2DB400"
-            android:fontFamily="@font/jua"
-            android:gravity="center"
-            android:text="  국민픽서"
-            android:textAlignment="viewStart"
-            android:textColor="#FFFFFF"
-            android:textSize="28sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.961"
-            app:layout_constraintStart_toStartOf="@+id/textView5"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/login2" />
-
-        <TextView
-            android:id="@+id/textView27"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/lemon"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/loginbtn"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <ListView
             android:id="@+id/answer_list"
             android:layout_width="0dp"
@@ -88,15 +49,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/resize"
-                android:padding="25px"
-                android:fontFamily="@font/jua"
                 android:paddingStart="15dp"
                 android:paddingLeft="15dp"
-                android:text="ㅤㅤㅤ위로 밀어 질문목록을 확인해주세요."
-                android:textAlignment="center"
-                android:gravity="center"
-                android:textSize="18sp" />
+                android:text="Action"
+                android:textSize="16sp" />
 
         </RelativeLayout>
 
