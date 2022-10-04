@@ -72,39 +72,42 @@ public class Fragment1 extends Fragment {
         logoutbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.remove("name");
-                editor.commit();
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-                builder.setTitle("확인창").setMessage("포인트를 사용하시겠습니까?");
+                builder.setTitle("로그아웃").setMessage("로그아웃 하시겠습니까?");
                 builder.setPositiveButton("아니요", new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int id)
                     {
-                        Toast.makeText(getActivity().getApplicationContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity().getApplicationContext(), "로그아웃 취소", Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.setNegativeButton("예", new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int id)
                     {
-                        Toast.makeText(getActivity().getApplicationContext(), "3000포인트 사용완료", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity().getApplicationContext(), "로그아웃 성공", Toast.LENGTH_SHORT).show();
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.remove("name");
+                        editor.commit();
+                        try{
+                            // TODO 액티비티 화면 재갱신 시키는 코드
+                            Intent intent = getActivity().getIntent();
+                            getActivity().finish(); // 현재 액티비티 종료 실시
+                            getActivity().overridePendingTransition(0,0);// 인텐트 애니메이션 없애기
+                            startActivity(intent);// 현재 액티비티 재실행 실시
+                            getActivity().overridePendingTransition(0,0);// 인텐트 애니메이션 없애기
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                     }
                 });
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
 
-                try{
-                    // TODO 액티비티 화면 재갱신 시키는 코드
-                    Intent intent = getActivity().getIntent();
-                    getActivity().finish(); // 현재 액티비티 종료 실시
-                    getActivity().overridePendingTransition(0,0);// 인텐트 애니메이션 없애기
-                    startActivity(intent);// 현재 액티비티 재실행 실시
-                    getActivity().overridePendingTransition(0,0);// 인텐트 애니메이션 없애기
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+
+
+
             }
         });
 
