@@ -27,6 +27,7 @@ public class sliding extends AppCompatActivity implements AdapterView.OnItemClic
 
     ListView answer_list;
 
+    //주석
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
