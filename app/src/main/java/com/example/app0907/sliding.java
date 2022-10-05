@@ -65,8 +65,15 @@ public class sliding extends AppCompatActivity implements AdapterView.OnItemClic
 //            Toast.makeText(this, question, Toast.LENGTH_SHORT).show();
 //        }
 
+        if(question[i].equals("회원가입은 어디서하나요?")){
+            answer_list.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, answer1));
+        }else {
+            Toast.makeText(this, question[i], Toast.LENGTH_SHORT).show();
+        }
 
-        Toast.makeText(this, question[i], Toast.LENGTH_SHORT).show();
+
+
+
 
     }
 }
