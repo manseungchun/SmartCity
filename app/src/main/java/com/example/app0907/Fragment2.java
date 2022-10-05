@@ -54,6 +54,7 @@ public class Fragment2 extends Fragment {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
             }
         });
 
