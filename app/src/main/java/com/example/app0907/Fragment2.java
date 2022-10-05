@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Geocoder;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -19,15 +21,18 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 
 
 public class Fragment2 extends Fragment {
@@ -40,10 +45,24 @@ public class Fragment2 extends Fragment {
     final static int TAKE_PICTURE=1;
     Bitmap bitmap;
 
+    // 사진 메타데이터 가져오기
+    private boolean valid = false;
+    private Float latitude, longitude;
+    Geocoder geocoder;
+    private Uri selectedImageUri;
+    TextView testView;
+    //
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_2, container, false);
+
+        // 사진 메타데이터 가져오기
+        geocoder = new Geocoder(view.getContext());
+        testView = view.findViewById(R.id.testView);
+        //
+
 
         submitBtn = view.findViewById(R.id.submitBtn);
 
@@ -54,6 +73,28 @@ public class Fragment2 extends Fragment {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String filename = Environment.getExternalStorageDirectory().getPath();
+                Toast.makeText(getActivity(), filename, Toast.LENGTH_SHORT).show();
+                try {
+                    ExifInterface exif = new ExifInterface(filename);
+                    showExif(exif);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getActivity(), "error", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            private void showExif(ExifInterface exif) {
+                String myAttribute = "[Exif information] \n\n";
+
+                myAttribute += exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
+                myAttribute += exif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
+                myAttribute += exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
+                myAttribute += exif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
+
+                testView.setText(myAttribute);
+
             }
         });
 
@@ -93,14 +134,14 @@ public class Fragment2 extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         // 갤러리 이미지 가져오는 기능
         if (requestCode == GET_GALLERY_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri selectedImageUri = data.getData();
+            selectedImageUri = data.getData();
             imv.setImageURI(selectedImageUri);
         }
         // 촬영한 사진 가져오는 기능
         switch (requestCode){
             case TAKE_PICTURE:
                 if(resultCode==RESULT_OK && data.hasExtra("data")){
-                    Bitmap bitmap = (Bitmap)data.getExtras().get("data");
+                    bitmap = (Bitmap)data.getExtras().get("data");
                     if(bitmap!=null){
                         imv.setImageBitmap(bitmap);
                     }
