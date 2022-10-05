@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -67,12 +68,29 @@ public class login extends AppCompatActivity {
                                 // 서버 응답 성공
                                 Toast.makeText(login.this, "로그인 연결 성공", Toast.LENGTH_SHORT).show();
                                 Toast.makeText(login.this, response, Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(login.this, MainActivity.class);
+//                                Toast.makeText(login.this, response, Toast.LENGTH_SHORT).show();
+//                                Intent intent = new Intent(login.this, MainActivity.class);
+//
+//                                // 이름 가져오기
+//                                String name = response;
+//                                intent.putExtra("name", name);
+//                                startActivity(intent);
+                                SharedPreferences sharedPreferences= getSharedPreferences("test", MODE_PRIVATE);    // test 이름의 기본모드 설정
+                                SharedPreferences.Editor editor= sharedPreferences.edit(); //sharedPreferences를 제어할 editor를 선언
+                                editor.putString("name", response); // key,value 형식으로 저장
+                                editor.commit();    //최종 커밋. 커밋을 해야 저장이 된다.
+                                try{
+                                    // TODO 액티비티 화면 재갱신 시키는 코드
+                                    Intent intent = new Intent(login.this, MainActivity.class);
+                                    finish(); // 현재 액티비티 종료 실시
+                                    overridePendingTransition(0,0);// 인텐트 애니메이션 없애기
+                                    startActivity(intent);// 현재 액티비티 재실행 실시
+                                    overridePendingTransition(0,0);// 인텐트 애니메이션 없애기
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
+//                                finish();
 
-                                // 이름 가져오기
-                                String name = response;
-                                intent.putExtra("name", name);
-                                startActivity(intent);
                             }
                         },
                         new Response.ErrorListener() {
