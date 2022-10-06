@@ -2,4 +2,7 @@
     <string name="app_name">국민픽서</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- 회원정보수정 -->
+    <string name="update"><u>회원정보수정</u></string>
 </resources>
