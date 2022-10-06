@@ -1,5 +1,7 @@
 package com.example.app0907;
 
+import org.json.JSONArray;
+
 import java.sql.Timestamp;
 
 public class ReportVO {

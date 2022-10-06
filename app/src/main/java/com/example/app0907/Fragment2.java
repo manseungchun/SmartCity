@@ -27,6 +27,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+
 import java.io.File;
 
 
@@ -40,6 +43,8 @@ public class Fragment2 extends Fragment {
     final static int TAKE_PICTURE=1;
     Bitmap bitmap;
 
+    RequestQueue requestQueue;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,9 +56,15 @@ public class Fragment2 extends Fragment {
         picbtn = view.findViewById(R.id.picbtn);
         imv = (ImageView) view.findViewById(R.id.imv);
 
+
+        if (requestQueue == null) {
+            requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        }
+
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
             }
         });
 
