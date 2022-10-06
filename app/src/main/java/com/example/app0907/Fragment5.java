@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -38,6 +39,7 @@ public class Fragment5 extends Fragment {
     RequestQueue requestQueue;
 
     String name;
+    TextView tv2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,6 +49,8 @@ public class Fragment5 extends Fragment {
 
         data = new ArrayList<>();
         lv = view.findViewById(R.id.lv5);
+        tv2=view.findViewById(R.id.tv2);
+        tv2.setVisibility(View.INVISIBLE);
 
         if (requestQueue == null) {
             requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
@@ -66,16 +70,20 @@ public class Fragment5 extends Fragment {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray jsonArray = jsonObject.getJSONArray("data");
-                            for(int i=0; i<jsonArray.length(); i++){
-                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                String date = jsonObject1.getString("date");
-                                String point = jsonObject1.getString("point");
+                            if (jsonArray.length() != 0) {
+                                for(int i=0; i<jsonArray.length(); i++){
+                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                    String date = jsonObject1.getString("date");
+                                    String point = jsonObject1.getString("point");
 
-                                data.add(new ReportVO(date,point));
+                                    data.add(new ReportVO(date,point));
 
-                                ReportAdapter adapter = new ReportAdapter(view.getContext(), R.layout.reportlv, data);
+                                    ReportAdapter adapter = new ReportAdapter(view.getContext(), R.layout.reportlv, data);
 
-                                lv.setAdapter(adapter);
+                                    lv.setAdapter(adapter);
+                                }
+                            }else{
+                                tv2.setVisibility(View.VISIBLE);
                             }
 
 

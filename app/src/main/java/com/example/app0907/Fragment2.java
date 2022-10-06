@@ -121,7 +121,7 @@ public class Fragment2 extends Fragment {
         switch (requestCode){
             case TAKE_PICTURE:
                 if(resultCode==RESULT_OK && data.hasExtra("data")){
-                    Bitmap bitmap = (Bitmap)data.getExtras().get("data");
+                    bitmap = (Bitmap)data.getExtras().get("data");
                     if(bitmap!=null){
                         imv.setImageBitmap(bitmap);
                     }
