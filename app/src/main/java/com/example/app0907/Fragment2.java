@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -25,12 +26,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
 import java.io.File;
+import java.io.IOException;
 
 
 public class Fragment2 extends Fragment {
@@ -44,6 +47,7 @@ public class Fragment2 extends Fragment {
     Bitmap bitmap;
 
     RequestQueue requestQueue;
+    TextView testView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +61,7 @@ public class Fragment2 extends Fragment {
         imv = (ImageView) view.findViewById(R.id.imv);
 
 
+        testView = view.findViewById(R.id.testView);
         if (requestQueue == null) {
             requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
         }
@@ -65,6 +70,14 @@ public class Fragment2 extends Fragment {
             @Override
             public void onClick(View view) {
 
+
+//                try {
+//                    ExifInterface exif = new ExifInterface(filename);
+//                    showExif(exif);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    Toast.makeText(getActivity(), "정보 부르기 실패", Toast.LENGTH_SHORT).show();
+//                }
             }
         });
 
@@ -98,6 +111,31 @@ public class Fragment2 extends Fragment {
         });
         return view;
     }
+
+    private void showExif(ExifInterface exif) {
+
+            String myAttribute = "[Exif information] \n\n";
+
+            myAttribute += getTagString(ExifInterface.TAG_DATETIME, exif);
+            myAttribute += getTagString(ExifInterface.TAG_FLASH, exif);
+            myAttribute += getTagString(ExifInterface.TAG_GPS_LATITUDE, exif);
+            myAttribute += getTagString(ExifInterface.TAG_GPS_LATITUDE_REF, exif);
+            myAttribute += getTagString(ExifInterface.TAG_GPS_LONGITUDE, exif);
+            myAttribute += getTagString(ExifInterface.TAG_GPS_LONGITUDE_REF, exif);
+            myAttribute += getTagString(ExifInterface.TAG_IMAGE_LENGTH, exif);
+            myAttribute += getTagString(ExifInterface.TAG_IMAGE_WIDTH, exif);
+            myAttribute += getTagString(ExifInterface.TAG_MAKE, exif);
+            myAttribute += getTagString(ExifInterface.TAG_MODEL, exif);
+            myAttribute += getTagString(ExifInterface.TAG_ORIENTATION, exif);
+            myAttribute += getTagString(ExifInterface.TAG_WHITE_BALANCE, exif);
+
+            testView.setText(myAttribute);
+    }
+
+    private String getTagString(String tag, ExifInterface exif) {
+        return (tag + " : " + exif.getAttribute(tag) + "\n");
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
