@@ -34,7 +34,7 @@ public class Fragment1 extends Fragment {
     ImageView ckimv1,ckimv2,ckimv3;
     ImageButton imageButton;
     RequestQueue requestQueue;
-
+    TextView vm;
     String name;
 
 
@@ -48,6 +48,7 @@ public class Fragment1 extends Fragment {
         imageButton = view.findViewById(R.id.imageButton);
         leftbtn = view.findViewById(R.id.leftbtn);
         rightbtn = view.findViewById(R.id.rightbtn);
+        vm = view.findViewById(R.id.vm);
 
 
         ckimv1 = view.findViewById(R.id.ckimv1);
@@ -149,6 +150,14 @@ public class Fragment1 extends Fragment {
                 ckimv1.setImageResource(imgs[idx]);
                 ckimv2.setImageResource(imgs[idx+1]);
                 ckimv3.setImageResource(imgs[idx+2]);
+            }
+        });
+        
+        vm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), More.class);
+                startActivity(intent);
             }
         });
         
