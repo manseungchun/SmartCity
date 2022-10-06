@@ -38,10 +38,6 @@ public class Fragment5 extends Fragment {
     RequestQueue requestQueue;
 
     String name;
-    String date;
-    String point;
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

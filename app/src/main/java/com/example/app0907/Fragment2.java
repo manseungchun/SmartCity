@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
@@ -34,6 +35,8 @@ import com.android.volley.toolbox.Volley;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class Fragment2 extends Fragment {
@@ -48,6 +51,8 @@ public class Fragment2 extends Fragment {
 
     RequestQueue requestQueue;
     TextView testView;
+
+    File file;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,17 +74,11 @@ public class Fragment2 extends Fragment {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-//                try {
-//                    ExifInterface exif = new ExifInterface(filename);
-//                    showExif(exif);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                    Toast.makeText(getActivity(), "정보 부르기 실패", Toast.LENGTH_SHORT).show();
-//                }
+                String filename = Environment.getExternalStorageDirectory().getPath()+"/"+imv;
+                Toast.makeText(getActivity(), filename, Toast.LENGTH_SHORT).show();
             }
         });
+
 
         picbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,9 +97,6 @@ public class Fragment2 extends Fragment {
 
         });
 
-
-
-
         galbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,30 +106,6 @@ public class Fragment2 extends Fragment {
             }
         });
         return view;
-    }
-
-    private void showExif(ExifInterface exif) {
-
-            String myAttribute = "[Exif information] \n\n";
-
-            myAttribute += getTagString(ExifInterface.TAG_DATETIME, exif);
-            myAttribute += getTagString(ExifInterface.TAG_FLASH, exif);
-            myAttribute += getTagString(ExifInterface.TAG_GPS_LATITUDE, exif);
-            myAttribute += getTagString(ExifInterface.TAG_GPS_LATITUDE_REF, exif);
-            myAttribute += getTagString(ExifInterface.TAG_GPS_LONGITUDE, exif);
-            myAttribute += getTagString(ExifInterface.TAG_GPS_LONGITUDE_REF, exif);
-            myAttribute += getTagString(ExifInterface.TAG_IMAGE_LENGTH, exif);
-            myAttribute += getTagString(ExifInterface.TAG_IMAGE_WIDTH, exif);
-            myAttribute += getTagString(ExifInterface.TAG_MAKE, exif);
-            myAttribute += getTagString(ExifInterface.TAG_MODEL, exif);
-            myAttribute += getTagString(ExifInterface.TAG_ORIENTATION, exif);
-            myAttribute += getTagString(ExifInterface.TAG_WHITE_BALANCE, exif);
-
-            testView.setText(myAttribute);
-    }
-
-    private String getTagString(String tag, ExifInterface exif) {
-        return (tag + " : " + exif.getAttribute(tag) + "\n");
     }
 
 

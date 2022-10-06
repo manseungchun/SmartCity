@@ -1,21 +1,41 @@
 package com.example.app0907;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Fragment3 extends Fragment {
 
     Button buybtn1,buybtn2,buybtn3,buybtn4;
+
+    TextView tvAllPoint;
+
+    RequestQueue requestQueue;
+    String name;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -25,6 +45,49 @@ public class Fragment3 extends Fragment {
         buybtn2=view.findViewById(R.id.buybtn2);
         buybtn3=view.findViewById(R.id.buybtn3);
         buybtn4=view.findViewById(R.id.buybtn4);
+
+        tvAllPoint = view.findViewById(R.id.tvAllPoint);
+
+        if (requestQueue == null) {
+            requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        }
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("test", Context.MODE_PRIVATE);
+        name = sharedPreferences.getString("name","");
+
+        Toast.makeText(getActivity(), name, Toast.LENGTH_SHORT).show();
+
+        String url = "http://222.102.104.237:5000/AllPoint";
+
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // 서버 연결 성공
+                        Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+                        tvAllPoint.setText(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(), "전체 마일리지 연결 실패", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        ){
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("id",name);
+                return params;
+            }
+        };
+
+        request.setShouldCache(false);
+        requestQueue.add(request);
 
         buybtn1.setOnClickListener(new View.OnClickListener() {
             @Override

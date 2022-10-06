@@ -184,17 +184,32 @@
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <TextView
-        android:id="@+id/textView18"
-        android:layout_width="234dp"
-        android:layout_height="42dp"
+        android:id="@+id/tvAllPoint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginBottom="2dp"
         android:fontFamily="@font/jua"
-        android:text="10000point"
+        android:text="0"
         android:textColor="#FFFFFF"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textView17"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/jua"
+        android:text=" point"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tvAllPoint"
+        app:layout_constraintStart_toEndOf="@+id/tvAllPoint"
+        app:layout_constraintTop_toTopOf="@+id/tvAllPoint"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView19"
@@ -207,7 +222,7 @@
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/textView18"
+        app:layout_constraintBottom_toTopOf="@+id/tvAllPoint"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7"
         app:layout_constraintVertical_bias="1.0" />
