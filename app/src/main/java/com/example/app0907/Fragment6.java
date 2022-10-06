@@ -3,11 +3,13 @@ package com.example.app0907;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -39,6 +41,8 @@ public class Fragment6 extends Fragment {
     RequestQueue requestQueue;
 
     String name;
+    TextView tv;
+
 
 
     @Override
@@ -48,6 +52,9 @@ public class Fragment6 extends Fragment {
 
         data = new ArrayList<>();
         lv = view.findViewById(R.id.lv6);
+        tv=view.findViewById(R.id.tv);
+        tv.setVisibility(View.INVISIBLE);
+
 
         if (requestQueue == null) {
             requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
@@ -66,21 +73,25 @@ public class Fragment6 extends Fragment {
                     public void onResponse(String response) {
                         try {
                             // 서버 응답 성공
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray jsonArray = jsonObject.getJSONArray("data");
-                            for(int i=0; i<jsonArray.length(); i++){
-                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                String date = jsonObject1.getString("date");
-                                String point = jsonObject1.getString("point");
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray jsonArray = jsonObject.getJSONArray("data");
+                            if (jsonArray.length() != 0) {
+                                for(int i=0; i<jsonArray.length(); i++) {
+                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                    String date = jsonObject1.getString("date");
+                                    String point = jsonObject1.getString("point");
 
-                                if(!date.equals("") && !point.equals("")){
                                     data.add(new MileageVO(date, point));
 
                                     MileageAdapter adapter = new MileageAdapter(view.getContext(), R.layout.mileagelv, data);
 
                                     lv.setAdapter(adapter);
                                 }
+                            }else{
+                                tv.setVisibility(View.VISIBLE);
                             }
+
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
