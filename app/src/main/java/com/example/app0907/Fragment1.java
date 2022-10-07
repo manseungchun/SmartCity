@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -156,14 +157,30 @@ public class Fragment1 extends Fragment {
         vm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), More.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(), Fragment8.class);
+//                startActivity(intent);
+                FragmentView(8);
             }
         });
+
+
         
 
 
         return view;
     }
+
+    private void FragmentView(int i) {
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        switch (i){
+            case 8:
+                Fragment7 fragment8 = new Fragment7();
+                transaction.replace(R.id.fl2,fragment8);
+                transaction.commit();
+                break;
+
+        }
+    }
+
 
 }
