@@ -53,12 +53,17 @@ public class MoreAdapter extends BaseAdapter {
         TextView date = view.findViewById(R.id.date);
         date.setText(data.get(i).getUploaddate());
 
-        TextView order = view.findViewById(R.id.order);
-        order.setText(data.get(i).getReceipt());
-
         TextView realddr = view.findViewById(R.id.realaddr);
         realddr.setText(data.get(i).getSpot());
 
+        TextView id = view.findViewById(R.id.id);
+        id.setText(data.get(i).getId());
+
+        TextView detail = view.findViewById(R.id.detail);
+        detail.setText(data.get(i).getDetail());
+
+        TextView order = view.findViewById(R.id.order);
+        order.setText(data.get(i).getReceipt());
 
         return view;
     }
