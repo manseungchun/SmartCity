@@ -14,10 +14,13 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -25,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -69,6 +73,11 @@ public class Fragment5 extends Fragment {
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
+
+
+
+                            Log.d("테스트", response);
+
                             JSONArray jsonArray = jsonObject.getJSONArray("data");
                             if (jsonArray.length() != 0) {
                                 for(int i=0; i<jsonArray.length(); i++){
@@ -111,9 +120,23 @@ public class Fragment5 extends Fragment {
                         // 서버 응답 실패
                         Toast.makeText(getActivity(), "신고현황 연결 실패", Toast.LENGTH_SHORT).show();
                     }
+                })
+        {
+            // 안드로이드에서 한글 인코딩
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                try {
+                    String utf8String = new String(response.data, "UTF-8");
+                    return Response.success(utf8String, HttpHeaderParser.parseCacheHeaders(response));
+                } catch (UnsupportedEncodingException e) {
+                    // log error
+                    return Response.error(new ParseError(e));
+                } catch (Exception e) {
+                    // log error
+                    return Response.error(new ParseError(e));
                 }
-        ){
-            // id, pw 넘기기
+            }
+            // id 넘기기
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
