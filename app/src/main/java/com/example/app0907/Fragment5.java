@@ -75,8 +75,9 @@ public class Fragment5 extends Fragment {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                     String date = jsonObject1.getString("date");
                                     String point = jsonObject1.getString("point");
+                                    String spot = jsonObject1.getString("spot");
 
-                                    data.add(new ReportVO(date,point));
+                                    data.add(new ReportVO(date,point,spot));
 
                                     ReportAdapter adapter = new ReportAdapter(view.getContext(), R.layout.reportlv, data);
 
