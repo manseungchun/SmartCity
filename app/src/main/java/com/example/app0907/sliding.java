@@ -46,9 +46,7 @@ public class sliding extends AppCompatActivity implements AdapterView.OnItemClic
     // 로그인 로그아웃
     ImageView loginbtn, logoutbtn;
     String name;
-
     RequestQueue requestQueue;
-
     // 로고 클릭시 home으로 가기
     TextView tvHome;
 
@@ -59,7 +57,6 @@ public class sliding extends AppCompatActivity implements AdapterView.OnItemClic
 
         loginbtn = findViewById(R.id.loginbtn);
         logoutbtn = findViewById(R.id.logoutbtn);
-
         textView14 = findViewById(R.id.tvHome);
         answer_list = findViewById(R.id.answer_list);
 
