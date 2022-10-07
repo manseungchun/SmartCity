@@ -12,6 +12,9 @@ public class ReportVO {
     // 적립포인트
     private String point_upload;
 
+    // 신고 위치
+    private String spot;
+
     public String getPoint_upload() {
         return point_upload;
     }
@@ -28,8 +31,17 @@ public class ReportVO {
         this.uploaddate = uploaddate;
     }
 
-    public ReportVO(String uploaddate, String point_upload) {
+    public ReportVO(String uploaddate, String point_upload, String spot) {
         this.uploaddate = uploaddate;
         this.point_upload = point_upload;
+        this.spot = spot;
+    }
+
+    public String getSpot() {
+        return spot;
+    }
+
+    public void setSpot(String spot) {
+        this.spot = spot;
     }
 }

@@ -55,6 +55,9 @@ public class ReportAdapter extends BaseAdapter {
         TextView tvPoint = view.findViewById(R.id.tvPoint);
         tvPoint.setText(data.get(i).getPoint_upload());
 
+        TextView tvSpot = view.findViewById(R.id.tvSpot);
+        tvSpot.setText(data.get(i).getSpot());
+
         return view;
     }
 }
