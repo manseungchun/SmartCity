@@ -79,7 +79,7 @@
         android:layout_marginEnd="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.961"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintStart_toStartOf="@+id/tvHome"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/login2" />
 

@@ -2,23 +2,22 @@ package com.example.app0907;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.PopupMenu;
-import android.widget.PopupWindow;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 
 public class sliding extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -44,13 +43,100 @@ public class sliding extends AppCompatActivity implements AdapterView.OnItemClic
     ListView answer_list;
     TextView textView14;
 
+    // 로그인 로그아웃
+    ImageView loginbtn, logoutbtn;
+    String name;
+
+    RequestQueue requestQueue;
+
+    // 로고 클릭시 home으로 가기
+    TextView tvHome;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sliding);
 
-        textView14 = findViewById(R.id.textView14);
+        loginbtn = findViewById(R.id.loginbtn);
+        logoutbtn = findViewById(R.id.logoutbtn);
+
+        textView14 = findViewById(R.id.tvHome);
         answer_list = findViewById(R.id.answer_list);
+
+        // 로고 클릭시 home으로 가기
+        tvHome = findViewById(R.id.tvHome);
+        tvHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // volley 연결 시 필요
+        if (requestQueue == null) {
+            requestQueue = Volley.newRequestQueue(getApplicationContext());
+        }
+
+        // 로그인 시 이름 저장하고 빼오기
+        SharedPreferences sharedPreferences = getSharedPreferences("test", Context.MODE_PRIVATE);
+        name = sharedPreferences.getString("name","");
+
+        // 로그인 했을때 잠금버튼 로그아웃 했을때 로그인 버튼
+        if(name.equals("")){
+            loginbtn.setVisibility(View.VISIBLE);
+            logoutbtn.setVisibility(View.INVISIBLE);
+        }else{
+            logoutbtn.setVisibility(View.VISIBLE);
+            loginbtn.setVisibility(View.INVISIBLE);
+        }
+        // 로그아웃 버튼 클릭시
+        logoutbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 로그아웃 버튼 시 알림창
+                AlertDialog.Builder builder = new AlertDialog.Builder(sliding.this);
+
+                // 로그아웃 메시지
+                builder.setTitle("로그아웃").setMessage("로그아웃 하시겠습니까?");
+
+                // 로그아웃 아니요 눌렀을 때
+                builder.setPositiveButton("아니요", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        Toast.makeText(getApplicationContext(), "로그아웃 취소", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                // 로그아웃 예 눌렀을 때
+                builder.setNegativeButton("예", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        Toast.makeText(getApplicationContext(), "로그아웃 성공", Toast.LENGTH_SHORT).show();
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.remove("name");
+                        editor.commit();
+
+                        Intent intent = new Intent(sliding.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+            }
+        });
+
+        // 로그인 버튼 클릭시
+        loginbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),login.class);
+                startActivity(intent);
+            }
+        });
 
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, question));
@@ -71,6 +157,7 @@ public class sliding extends AppCompatActivity implements AdapterView.OnItemClic
     }
 
 
+    // 슬라이드 올려서 질문 선택시
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
@@ -97,7 +184,7 @@ public class sliding extends AppCompatActivity implements AdapterView.OnItemClic
         } else if (question[i].equals("이 외의 다른문의사항이 있어요")) {
             answer_list.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, answer8));
 
-
         }
     }
+
 }

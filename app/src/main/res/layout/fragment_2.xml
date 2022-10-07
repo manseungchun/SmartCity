@@ -9,7 +9,7 @@
     tools:context=".Fragment2">
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/tvHome"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:background="#2DB400"
@@ -32,9 +32,21 @@
         android:layout_marginEnd="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintStart_toStartOf="@+id/tvHome"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/login2" />
+
+
+    <ImageView
+        android:id="@+id/logoutbtn"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/logout"
+        app:layout_constraintEnd_toEndOf="@+id/loginbtn"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView6"
@@ -97,7 +109,7 @@
         android:layout_marginTop="352dp"
         android:src="@drawable/camera2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/tvHome" />
 
     <ImageView
         android:id="@+id/imv"
@@ -110,7 +122,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/tvHome" />
 
     <Button
         android:id="@+id/submitBtn"
@@ -155,7 +167,7 @@
         app:layout_constraintBottom_toTopOf="@+id/imageView5"
         app:layout_constraintEnd_toStartOf="@+id/imv"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/tvHome" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

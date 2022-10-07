@@ -56,13 +56,16 @@ public class Fragment1 extends Fragment {
         ckimv2 = view.findViewById(R.id.ckimv2);
         ckimv3 = view.findViewById(R.id.ckimv3);
 
+        // volley 연결 시 필요
         if (requestQueue == null) {
             requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
         }
 
+        // 로그인 시 이름 저장하고 빼오기
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("test", Context.MODE_PRIVATE);
         name = sharedPreferences.getString("name","");
-        Toast.makeText(getActivity(), name, Toast.LENGTH_SHORT).show();
+
+        // 로그인 했을때 잠금버튼 로그아웃 했을때 로그인 버튼
         if(name.equals("")){
             loginbtn.setVisibility(View.VISIBLE);
             logoutbtn.setVisibility(View.INVISIBLE);
@@ -71,12 +74,18 @@ public class Fragment1 extends Fragment {
             logoutbtn.setVisibility(View.VISIBLE);
             loginbtn.setVisibility(View.INVISIBLE);
         }
+
+        // 로그아웃 버튼 클릭시
         logoutbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // 로그아웃 버튼 시 알림창
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
+                // 로그아웃 메시지
                 builder.setTitle("로그아웃").setMessage("로그아웃 하시겠습니까?");
+
+                // 로그아웃 아니요 눌렀을 때
                 builder.setPositiveButton("아니요", new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int id)
@@ -84,6 +93,8 @@ public class Fragment1 extends Fragment {
                         Toast.makeText(getActivity().getApplicationContext(), "로그아웃 취소", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+                // 로그아웃 예 눌렀을 때
                 builder.setNegativeButton("예", new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int id)
@@ -92,6 +103,8 @@ public class Fragment1 extends Fragment {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.remove("name");
                         editor.commit();
+
+                        // 새로고침해서 로그인 버튼으로 출력
                         try{
                             // TODO 액티비티 화면 재갱신 시키는 코드
                             Intent intent = getActivity().getIntent();
@@ -110,6 +123,7 @@ public class Fragment1 extends Fragment {
             }
         });
 
+        // 로그인 버튼 클릭시
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,6 +132,7 @@ public class Fragment1 extends Fragment {
             }
         });
 
+        // 문의하기 버튼 클릭시
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,6 +141,7 @@ public class Fragment1 extends Fragment {
             }
         });
 
+        // 실시간 현황 슬라이드 오른쪽 버튼 클릭시
         rightbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -140,6 +156,7 @@ public class Fragment1 extends Fragment {
             }
         });
 
+        // 실시간 현황 슬라이드 왼쪽 버튼 클릭 시
         leftbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,29 +170,25 @@ public class Fragment1 extends Fragment {
                 ckimv3.setImageResource(imgs[idx+2]);
             }
         });
-        
+
+        // 더보기 버튼 클릭시
         vm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(), Fragment8.class);
-//                startActivity(intent);
-                FragmentView(8);
+                FragmentView(7);
             }
         });
-
-
-        
-
 
         return view;
     }
 
+    // 더보기 버튼 클릭시 더보기 프라그먼트로 이동하는 메소드
     private void FragmentView(int i) {
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         switch (i){
-            case 8:
-                Fragment7 fragment8 = new Fragment7();
-                transaction.replace(R.id.fl2,fragment8);
+            case 7:
+                Fragment7 fragment7 = new Fragment7();
+                transaction.replace(R.id.fl2,fragment7);
                 transaction.commit();
                 break;
 

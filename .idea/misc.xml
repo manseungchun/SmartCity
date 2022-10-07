@@ -14,19 +14,21 @@
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/activity_join.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/activity_loding.xml" value="0.24048913043478262" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/activity_login.xml" value="0.33" />
+        <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/activity_main.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/activity_more.xml" value="0.24048913043478262" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/activity_practice.xml" value="0.17798913043478262" />
-        <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/activity_sliding.xml" value="0.22" />
+        <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/activity_sliding.xml" value="0.33" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/fragment_1.xml" value="0.33" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/fragment_2.xml" value="0.33" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/fragment_3.xml" value="0.33" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/fragment_4.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/fragment_5.xml" value="0.33" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/fragment_6.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/fragment_7.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/join.xml" value="0.33" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/listview.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/mileagelv.xml" value="0.18" />
-        <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/more.xml" value="0.24048913043478262" />
+        <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/more.xml" value="0.5" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/question.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/reportlv.xml" value="0.33" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/resize.xml" value="0.11271529888551166" />
@@ -35,7 +37,6 @@
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SmartCity1/app/src/main/res/layout/activity_join.xml" value="0.29846014492753625" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SmartCity1/app/src/main/res/layout/activity_loding.xml" value="0.1" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SmartCity1/app/src/main/res/layout/activity_login.xml" value="0.15052083333333333" />
-        <entry key="..\:/Users/smhrd/AndroidStudioProjects/SmartCity1/app/src/main/res/layout/activity_more.xml" value="0.2796875" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SmartCity1/app/src/main/res/layout/activity_sliding.xml" value="0.15052083333333333" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SmartCity1/app/src/main/res/layout/fragment_1.xml" value="0.33" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SmartCity1/app/src/main/res/layout/fragment_2.xml" value="0.25" />
@@ -45,7 +46,6 @@
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SmartCity1/app/src/main/res/layout/fragment_6.xml" value="0.33" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SmartCity1/app/src/main/res/layout/listview.xml" value="0.33" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SmartCity1/app/src/main/res/layout/mileagelv.xml" value="0.33" />
-        <entry key="..\:/Users/smhrd/AndroidStudioProjects/SmartCity1/app/src/main/res/layout/more.xml" value="0.2796875" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SmartCity1/app/src/main/res/layout/question.xml" value="0.15052083333333333" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SmartCity1/app/src/main/res/layout/reportlv.xml" value="0.33" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SmartCity1/app/src/main/res/layout/xxxxxxxxfragment_4.xml" value="0.15052083333333333" />

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -28,6 +29,9 @@ public class join extends AppCompatActivity {
 
     RequestQueue requestQueue;
 
+    // 로고 클릭시 home으로 가기
+    TextView tvHome;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +44,16 @@ public class join extends AppCompatActivity {
         JoinAddr = findViewById(R.id.JoinAddr);
         JoinCall = findViewById(R.id.JoinCall);
         JoinBtn = findViewById(R.id.JoinBtn);
+
+        // 로고 클릭시 home으로 가기
+        tvHome = findViewById(R.id.tvHome);
+        tvHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         if (requestQueue == null) {
             requestQueue = Volley.newRequestQueue(getApplicationContext());

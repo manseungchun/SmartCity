@@ -9,7 +9,7 @@
     tools:context=".Fragment4">
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/tvHome"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:background="#2DB400"
@@ -34,6 +34,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/login2" />
+
+    <ImageView
+        android:id="@+id/logoutbtn"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/logout"
+        app:layout_constraintEnd_toEndOf="@+id/loginbtn"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/fragbtn6"

@@ -33,6 +33,9 @@ public class login extends AppCompatActivity {
 
     RequestQueue requestQueue;
 
+    // 로고 클릭시 home으로 가기
+    TextView tvHome;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +46,16 @@ public class login extends AppCompatActivity {
         etPw = findViewById(R.id.etpw);
         loginbtn = findViewById(R.id.button9);
         imgJoin = findViewById(R.id.imgJoin);
+
+        // 로고 클릭시 home으로 가기
+        tvHome = findViewById(R.id.tvHome);
+        tvHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         if(requestQueue == null){
             requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -80,19 +93,31 @@ public class login extends AppCompatActivity {
                                     SharedPreferences.Editor editor= sharedPreferences.edit(); //sharedPreferences를 제어할 editor를 선언
                                     editor.putString("name", response); // key,value 형식으로 저장
                                     editor.commit();    //최종 커밋. 커밋을 해야 저장이 된다.
-                                }
 
-                                try{
-                                    // TODO 액티비티 화면 재갱신 시키는 코드
-                                    Intent intent = new Intent(login.this, MainActivity.class);
-                                    finish(); // 현재 액티비티 종료 실시
-                                    overridePendingTransition(0,0);// 인텐트 애니메이션 없애기
-                                    startActivity(intent);// 현재 액티비티 재실행 실시
-                                    overridePendingTransition(0,0);// 인텐트 애니메이션 없애기
-                                }catch (Exception e){
-                                    e.printStackTrace();
+                                    // 로그인 성공시 로그인 버튼을 로그아웃 버튼으로 변하게 하기
+                                    try{
+                                        // TODO 액티비티 화면 재갱신 시키는 코드
+                                        Intent intent = new Intent(login.this, MainActivity.class);
+                                        finish(); // 현재 액티비티 종료 실시
+                                        overridePendingTransition(0,0);// 인텐트 애니메이션 없애기
+                                        startActivity(intent);// 현재 액티비티 재실행 실시
+                                        overridePendingTransition(0,0);// 인텐트 애니메이션 없애기
+                                    }catch (Exception e){
+                                        e.printStackTrace();
+                                    }
+                                }else{
+                                    // 로그인 실패시 로그인 화면 그대로
+                                    try{
+                                        // TODO 액티비티 화면 재갱신 시키는 코드
+                                        Intent intent = login.this.getIntent();
+                                        finish(); // 현재 액티비티 종료 실시
+                                        overridePendingTransition(0,0);// 인텐트 애니메이션 없애기
+                                        startActivity(intent);// 현재 액티비티 재실행 실시
+                                        overridePendingTransition(0,0);// 인텐트 애니메이션 없애기
+                                    }catch (Exception e){
+                                        e.printStackTrace();
+                                    }
                                 }
-//                                finish();
 
                             }
                         },
