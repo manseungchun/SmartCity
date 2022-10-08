@@ -46,6 +46,9 @@ public class Fragment3 extends Fragment {
     // 로고 클릭시 home으로 가기
     TextView tvHome;
 
+    // 마일리지 사용할 url 저장
+    String url;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -113,13 +116,251 @@ public class Fragment3 extends Fragment {
             }
         });
 
+        url = "http://222.102.104.237:5000/UsePoint";
+
+        // 포인트 3000원 버튼 클릭시
+        buybtn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                builder.setTitle("확인창").setMessage("포인트를 사용하시겠습니까?");
+                builder.setPositiveButton("아니요", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        Toast.makeText(getActivity().getApplicationContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton("예", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        if(Integer.parseInt(tvAllPoint.getText().toString())>=3000){
+                            String point = "-3000";
+                            StringRequest request = new StringRequest(
+                                    Request.Method.POST,
+                                    url,
+                                    new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+                                            Toast.makeText(getActivity().getApplicationContext(), "3000포인트 사용완료", Toast.LENGTH_SHORT).show();
+                                            tvAllPoint.setText(response);
+                                        }
+                                    },
+                                    new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            // 서버 연결 실패
+                                            Toast.makeText(getActivity(), "마일리지 사용 연결 실패", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                            ){
+                                @Nullable
+                                @Override
+                                protected Map<String, String> getParams() throws AuthFailureError {
+                                    Map<String, String> params = new HashMap<>();
+                                    params.put("id",name);
+                                    params.put("point",point);
+                                    return params;
+                                }
+                            };
+                            request.setShouldCache(false);
+                            requestQueue.add(request);
+                        }else{
+                            Toast.makeText(getActivity(), "포인트가 부족합니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
+
+        // 포인트 5000원 버튼 클릭시
+        buybtn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                builder.setTitle("확인창").setMessage("포인트를 사용하시겠습니까?");
+                builder.setPositiveButton("아니요", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        Toast.makeText(getActivity().getApplicationContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton("예", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        if(Integer.parseInt(tvAllPoint.getText().toString())>=5000){
+                            String point = "-5000";
+                            StringRequest request = new StringRequest(
+                                    Request.Method.POST,
+                                    url,
+                                    new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+                                            Toast.makeText(getActivity().getApplicationContext(), "5000포인트 사용완료", Toast.LENGTH_SHORT).show();
+                                            tvAllPoint.setText(response);
+                                        }
+                                    },
+                                    new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            // 서버 연결 실패
+                                            Toast.makeText(getActivity(), "마일리지 사용 연결 실패", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                            ){
+                                @Nullable
+                                @Override
+                                protected Map<String, String> getParams() throws AuthFailureError {
+                                    Map<String, String> params = new HashMap<>();
+                                    params.put("id",name);
+                                    params.put("point",point);
+                                    return params;
+                                }
+                            };
+                            request.setShouldCache(false);
+                            requestQueue.add(request);
+                        }else{
+                            Toast.makeText(getActivity(), "포인트가 부족합니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
+
+        // 포인트 10000원 버튼 클릭시
+        buybtn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                builder.setTitle("확인창").setMessage("포인트를 사용하시겠습니까?");
+                builder.setPositiveButton("아니요", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        Toast.makeText(getActivity().getApplicationContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton("예", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        if(Integer.parseInt(tvAllPoint.getText().toString())>=10000){
+                            String point = "-10000";
+                            StringRequest request = new StringRequest(
+                                    Request.Method.POST,
+                                    url,
+                                    new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+                                            Toast.makeText(getActivity().getApplicationContext(), "10000포인트 사용완료", Toast.LENGTH_SHORT).show();
+                                            tvAllPoint.setText(response);
+                                        }
+                                    },
+                                    new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            // 서버 연결 실패
+                                            Toast.makeText(getActivity(), "마일리지 사용 연결 실패", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                            ){
+                                @Nullable
+                                @Override
+                                protected Map<String, String> getParams() throws AuthFailureError {
+                                    Map<String, String> params = new HashMap<>();
+                                    params.put("id",name);
+                                    params.put("point",point);
+                                    return params;
+                                }
+                            };
+                            request.setShouldCache(false);
+                            requestQueue.add(request);
+                        }else{
+                            Toast.makeText(getActivity(), "포인트가 부족합니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
+
+        //// 포인트 30000원 버튼 클릭시
+        buybtn4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                builder.setTitle("확인창").setMessage("포인트를 사용하시겠습니까?");
+                builder.setPositiveButton("아니요", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        Toast.makeText(getActivity().getApplicationContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton("예", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        if(Integer.parseInt(tvAllPoint.getText().toString())>=30000){
+                            String point = "-30000";
+                            StringRequest request = new StringRequest(
+                                    Request.Method.POST,
+                                    url,
+                                    new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+                                            Toast.makeText(getActivity().getApplicationContext(), "30000포인트 사용완료", Toast.LENGTH_SHORT).show();
+                                            tvAllPoint.setText(response);
+                                        }
+                                    },
+                                    new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            // 서버 연결 실패
+                                            Toast.makeText(getActivity(), "마일리지 사용 연결 실패", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                            ){
+                                @Nullable
+                                @Override
+                                protected Map<String, String> getParams() throws AuthFailureError {
+                                    Map<String, String> params = new HashMap<>();
+                                    params.put("id",name);
+                                    params.put("point",point);
+                                    return params;
+                                }
+                            };
+                            request.setShouldCache(false);
+                            requestQueue.add(request);
+                        }else{
+                            Toast.makeText(getActivity(), "포인트가 부족합니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
+
         // 전체 포인트 출력하는 url
-        String url = "http://222.102.104.237:5000/AllPoint";
+        String AllPointurl = "http://222.102.104.237:5000/AllPoint";
 
         // volley 연결
         StringRequest request = new StringRequest(
                 Request.Method.POST,
-                url,
+                AllPointurl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -147,110 +388,6 @@ public class Fragment3 extends Fragment {
 
         request.setShouldCache(false);
         requestQueue.add(request);
-
-        // 포인트 3000원 버튼 클릭시
-        buybtn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                builder.setTitle("확인창").setMessage("포인트를 사용하시겠습니까?");
-                builder.setPositiveButton("아니요", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-                        Toast.makeText(getActivity().getApplicationContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                builder.setNegativeButton("예", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-                        Toast.makeText(getActivity().getApplicationContext(), "3000포인트 사용완료", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-            }
-        });
-
-        // 포인트 5000원 버튼 클릭시
-        buybtn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                builder.setTitle("확인창").setMessage("포인트를 사용하시겠습니까?");
-                builder.setPositiveButton("아니요", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-                        Toast.makeText(getActivity().getApplicationContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                builder.setNegativeButton("예", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-                        Toast.makeText(getActivity().getApplicationContext(), "5000포인트 사용완료", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-            }
-        });
-
-        // 포인트 10000원 버튼 클릭시
-        buybtn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                builder.setTitle("확인창").setMessage("포인트를 사용하시겠습니까?");
-                builder.setPositiveButton("아니요", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-                        Toast.makeText(getActivity().getApplicationContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                builder.setNegativeButton("예", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-                        Toast.makeText(getActivity().getApplicationContext(), "10000포인트 사용완료", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-            }
-        });
-
-        //// 포인트 30000원 버튼 클릭시
-        buybtn4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                builder.setTitle("확인창").setMessage("포인트를 사용하시겠습니까?");
-                builder.setPositiveButton("아니요", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-                        Toast.makeText(getActivity().getApplicationContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                builder.setNegativeButton("예", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-                        Toast.makeText(getActivity().getApplicationContext(), "30000포인트 사용완료", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-            }
-        });
 
         return view;
     }

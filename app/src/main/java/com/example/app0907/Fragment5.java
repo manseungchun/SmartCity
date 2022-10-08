@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -45,6 +46,9 @@ public class Fragment5 extends Fragment {
     String name;
     TextView tv2;
 
+    // 회원정보수정
+    TextView tvUpdate;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -55,6 +59,9 @@ public class Fragment5 extends Fragment {
         lv = view.findViewById(R.id.lv5);
         tv2=view.findViewById(R.id.tv2);
         tv2.setVisibility(View.INVISIBLE);
+
+        // 회원정보 수정
+        tvUpdate = view.findViewById(R.id.tvUpdate);
 
         if (requestQueue == null) {
             requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
@@ -148,9 +155,28 @@ public class Fragment5 extends Fragment {
         requestQueue.add(request);
 
 
+        tvUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentView(8);
+            }
+        });
+
         return view;
 
     }
 
+    // 더보기 버튼 클릭시 더보기 프라그먼트로 이동하는 메소드
+    private void FragmentView(int i) {
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        switch (i){
+            case 8:
+                Fragment8 fragment8 = new Fragment8();
+                transaction.replace(R.id.fl2,fragment8);
+                transaction.commit();
+                break;
+
+        }
+    }
 
 }

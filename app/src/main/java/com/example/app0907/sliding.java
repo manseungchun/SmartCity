@@ -65,8 +65,7 @@ public class sliding extends AppCompatActivity implements AdapterView.OnItemClic
         tvHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
 
@@ -138,14 +137,6 @@ public class sliding extends AppCompatActivity implements AdapterView.OnItemClic
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, question));
         listView.setOnItemClickListener(this);
-
-        textView14.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Fragment1.class);
-                startActivity(intent);
-            }
-        });
 
         //추가코드
         ArrayAdapter<String> mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, answer9);
