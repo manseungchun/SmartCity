@@ -82,9 +82,6 @@ public class Fragment5 extends Fragment {
                             JSONObject jsonObject = new JSONObject(response);
 
 
-
-                            Log.d("테스트", response);
-
                             JSONArray jsonArray = jsonObject.getJSONArray("data");
                             if (jsonArray.length() != 0) {
                                 for(int i=0; i<jsonArray.length(); i++){

@@ -9,7 +9,7 @@
     tools:context=".Fragment3">
 
     <Button
-        android:id="@+id/joinBtn"
+        android:id="@+id/UpdateBtn"
         android:layout_width="149dp"
         android:layout_height="59dp"
         android:layout_marginBottom="44dp"
@@ -22,7 +22,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName5"
+        android:id="@+id/UpdateCall"
         android:layout_width="220dp"
         android:layout_height="37dp"
         android:layout_marginBottom="50dp"
@@ -31,9 +31,9 @@
         android:hint="변경하실 새 휴대폰번호를 입력해주세요"
         android:inputType="textPersonName"
         android:textSize="13sp"
-        app:layout_constraintBottom_toTopOf="@+id/joinBtn"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName4"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName4" />
+        app:layout_constraintBottom_toTopOf="@+id/UpdateBtn"
+        app:layout_constraintStart_toStartOf="@+id/UpdateAddr"
+        app:layout_constraintTop_toBottomOf="@+id/UpdateAddr" />
 
     <TextView
         android:id="@+id/textView37"
@@ -42,9 +42,9 @@
         android:fontFamily="@font/jua"
         android:text="휴대폰번호"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextTextPersonName5"
+        app:layout_constraintBottom_toBottomOf="@+id/UpdateCall"
         app:layout_constraintStart_toStartOf="@+id/textView36"
-        app:layout_constraintTop_toTopOf="@+id/editTextTextPersonName5" />
+        app:layout_constraintTop_toTopOf="@+id/UpdateCall" />
 
     <TextView
         android:id="@+id/textView36"
@@ -53,9 +53,9 @@
         android:fontFamily="@font/jua"
         android:text="주소"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextTextPersonName4"
+        app:layout_constraintBottom_toBottomOf="@+id/UpdateAddr"
         app:layout_constraintStart_toStartOf="@+id/textView18"
-        app:layout_constraintTop_toTopOf="@+id/editTextTextPersonName4" />
+        app:layout_constraintTop_toTopOf="@+id/UpdateAddr" />
 
     <TextView
         android:id="@+id/textView18"
@@ -64,9 +64,9 @@
         android:fontFamily="@font/jua"
         android:text="이름"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView25"
+        app:layout_constraintBottom_toBottomOf="@+id/UpdateName"
         app:layout_constraintStart_toStartOf="@+id/textView16"
-        app:layout_constraintTop_toTopOf="@+id/textView25" />
+        app:layout_constraintTop_toTopOf="@+id/UpdateName" />
 
     <TextView
         android:id="@+id/textView16"
@@ -75,9 +75,9 @@
         android:fontFamily="@font/jua"
         android:text="비밀번호"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextTextPersonName3"
+        app:layout_constraintBottom_toBottomOf="@+id/UpdatePw"
         app:layout_constraintStart_toStartOf="@+id/textView9"
-        app:layout_constraintTop_toTopOf="@+id/editTextTextPersonName3" />
+        app:layout_constraintTop_toTopOf="@+id/UpdatePw" />
 
     <Button
         android:id="@+id/button"
@@ -153,12 +153,12 @@
         android:fontFamily="@font/jua"
         android:text="아이디"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView14"
+        app:layout_constraintBottom_toBottomOf="@+id/UpdateId"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView14" />
+        app:layout_constraintTop_toTopOf="@+id/UpdateId" />
 
     <TextView
-        android:id="@+id/textView14"
+        android:id="@+id/UpdateId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
@@ -166,12 +166,12 @@
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/jua"
         android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName3"
+        app:layout_constraintBottom_toTopOf="@+id/UpdatePw"
         app:layout_constraintStart_toEndOf="@+id/textView9"
         app:layout_constraintTop_toBottomOf="@+id/button" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/UpdatePw"
         android:layout_width="220dp"
         android:layout_height="37dp"
         android:layout_marginBottom="20dp"
@@ -180,23 +180,23 @@
         android:hint="변경하실 새 비밀번호를 입력해주세요"
         android:inputType="textPersonName"
         android:textSize="13sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView25"
-        app:layout_constraintStart_toStartOf="@+id/textView14"
-        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+        app:layout_constraintBottom_toTopOf="@+id/UpdateName"
+        app:layout_constraintStart_toStartOf="@+id/UpdateId"
+        app:layout_constraintTop_toBottomOf="@+id/UpdateId" />
 
     <TextView
-        android:id="@+id/textView25"
+        android:id="@+id/UpdateName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/jua"
         android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName4"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName3"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
+        app:layout_constraintBottom_toTopOf="@+id/UpdateAddr"
+        app:layout_constraintStart_toStartOf="@+id/UpdatePw"
+        app:layout_constraintTop_toBottomOf="@+id/UpdatePw" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName4"
+        android:id="@+id/UpdateAddr"
         android:layout_width="220dp"
         android:layout_height="37dp"
         android:layout_marginBottom="20dp"
@@ -205,9 +205,9 @@
         android:hint="변경하실 새 주소를 입력해주세요"
         android:inputType="textPersonName"
         android:textSize="13sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName5"
-        app:layout_constraintStart_toStartOf="@+id/textView25"
-        app:layout_constraintTop_toBottomOf="@+id/textView25" />
+        app:layout_constraintBottom_toTopOf="@+id/UpdateCall"
+        app:layout_constraintStart_toStartOf="@+id/UpdateName"
+        app:layout_constraintTop_toBottomOf="@+id/UpdateName" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

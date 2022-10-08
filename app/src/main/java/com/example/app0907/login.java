@@ -14,13 +14,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -79,8 +87,6 @@ public class login extends AppCompatActivity {
                             @Override
                             public void onResponse(String response) {
                                 // 서버 응답 성공
-                                Toast.makeText(login.this, "로그인 연결 성공", Toast.LENGTH_SHORT).show();
-                                Toast.makeText(login.this, response, Toast.LENGTH_SHORT).show();
 //                                Toast.makeText(login.this, response, Toast.LENGTH_SHORT).show();
 //                                Intent intent = new Intent(login.this, MainActivity.class);
 //
@@ -88,12 +94,35 @@ public class login extends AppCompatActivity {
 //                                String name = response;
 //                                intent.putExtra("name", name);
 //                                startActivity(intent);
-                                if(!response.equals("로그인 실패")){
-                                    SharedPreferences sharedPreferences= getSharedPreferences("test", MODE_PRIVATE);    // test 이름의 기본모드 설정
-                                    SharedPreferences.Editor editor= sharedPreferences.edit(); //sharedPreferences를 제어할 editor를 선언
-                                    editor.putString("name", response); // key,value 형식으로 저장
-                                    editor.commit();    //최종 커밋. 커밋을 해야 저장이 된다.
 
+                                if(!response.equals("로그인 실패")){
+
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(response);
+                                        JSONArray jsonArray = jsonObject.getJSONArray("data");
+                                        if (jsonArray.length() != 0) {
+                                            for (int i = 0; i < jsonArray.length(); i++) {
+                                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                                String id = jsonObject1.getString("id");
+                                                String pw = jsonObject1.getString("pw");
+                                                String name = jsonObject1.getString("name");
+                                                String addr = jsonObject1.getString("addr");
+                                                String call = jsonObject1.getString("call");
+
+                                                SharedPreferences sharedPreferences = getSharedPreferences("test", MODE_PRIVATE);    // test 이름의 기본모드 설정
+                                                SharedPreferences.Editor editor = sharedPreferences.edit(); //sharedPreferences를 제어할 editor를 선언
+                                                editor.putString("name", id); // key,value 형식으로 저장
+                                                editor.putString("pw",pw);
+                                                editor.putString("reName",name);
+                                                editor.putString("addr",addr);
+                                                editor.putString("call",call);
+                                                editor.commit();    //최종 커밋. 커밋을 해야 저장이 된다.
+                                            }
+
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
                                     // 로그인 성공시 로그인 버튼을 로그아웃 버튼으로 변하게 하기
                                     try{
                                         // TODO 액티비티 화면 재갱신 시키는 코드
@@ -129,6 +158,21 @@ public class login extends AppCompatActivity {
                             }
                         }
                 ){
+                    @Override
+                    protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                        try {
+                            String utf8String = new String(response.data, "UTF-8");
+                            return Response.success(utf8String, HttpHeaderParser.parseCacheHeaders(response));
+                        } catch (UnsupportedEncodingException e) {
+                            // log error
+                            return Response.error(new ParseError(e));
+                        } catch (Exception e) {
+                            // log error
+                            return Response.error(new ParseError(e));
+                        }
+
+                    }
+
                     // id, pw 넘기기
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {

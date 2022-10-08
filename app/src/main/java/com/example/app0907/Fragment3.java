@@ -104,7 +104,7 @@ public class Fragment3 extends Fragment {
                     {
                         Toast.makeText(getActivity().getApplicationContext(), "로그아웃 성공", Toast.LENGTH_SHORT).show();
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.remove("name");
+                        editor.clear();
                         editor.commit();
 
                         FragmentView(1);

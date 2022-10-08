@@ -112,7 +112,7 @@ public class sliding extends AppCompatActivity implements AdapterView.OnItemClic
                     {
                         Toast.makeText(getApplicationContext(), "로그아웃 성공", Toast.LENGTH_SHORT).show();
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.remove("name");
+                        editor.clear();
                         editor.commit();
 
                         Intent intent = new Intent(sliding.this, MainActivity.class);

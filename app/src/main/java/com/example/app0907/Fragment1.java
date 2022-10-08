@@ -101,7 +101,7 @@ public class Fragment1 extends Fragment {
                     {
                         Toast.makeText(getActivity().getApplicationContext(), "로그아웃 성공", Toast.LENGTH_SHORT).show();
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.remove("name");
+                        editor.clear();
                         editor.commit();
 
                         // 새로고침해서 로그인 버튼으로 출력
