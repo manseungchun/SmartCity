@@ -12,7 +12,7 @@
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/App0907/app/src/main/res/menu/select.xml" value="0.25" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/drawable/bg_custom.xml" value="0.1" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/drawable/resize.xml" value="0.139" />
-        <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/activity_join.xml" value="0.9" />
+        <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/activity_join.xml" value="0.33" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/activity_loding.xml" value="0.24048913043478262" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/activity_main.xml" value="0.36614583333333334" />
@@ -28,6 +28,8 @@
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/fragment_5.xml" value="0.33" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/fragment_6.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/fragment_7.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/fragment_8.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/fragment_9.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/fragment_update.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/join.xml" value="0.33" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SMARTCITYver3/app/src/main/res/layout/listview.xml" value="0.36614583333333334" />
