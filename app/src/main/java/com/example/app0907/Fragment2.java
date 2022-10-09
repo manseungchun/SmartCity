@@ -170,12 +170,26 @@ public class Fragment2 extends Fragment {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog = new ProgressDialog(view.getContext());
-                progressDialog.setMessage("분석중입니다.\n잠시만 기다려 주세요.");
-                progressDialog.show();
+                if (bitmap != null) {
+                    progressDialog = new ProgressDialog(view.getContext());
+                    progressDialog.setMessage("분석중입니다.\n잠시만 기다려 주세요.");
+                    progressDialog.show();
 
-                sendImage();
-                testView.setText(Environment.getExternalStorageDirectory().getPath());
+                    sendImage();
+                }else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                    builder.setTitle("제출실패").setMessage("사진을 업로드 해주시길 바랍니다.");
+                    builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface dialog, int id)
+                        {
+                        }
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+
             }
         });
 
@@ -229,9 +243,33 @@ public class Fragment2 extends Fragment {
                         progressDialog.dismiss();
                         if(response.equals("true")){
                             Toast.makeText(getActivity(), "업로드 성공", Toast.LENGTH_LONG).show();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                            builder.setTitle("분석결과").setMessage("분석결과 해당 사진은\n"+response+"(으)로 판별되었습니다.\n100포인트가 적립됩니다.");
+                            builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                                @Override
+                                public void onClick(DialogInterface dialog, int id)
+                                {
+                                    // 어디로 보낼지 모르게땨 ~
+                                }
+                            });
+                            AlertDialog alertDialog = builder.create();
+                            alertDialog.show();
                         }
                         else{
                             Toast.makeText(getActivity(), "업로드 실패", Toast.LENGTH_LONG).show();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                        builder.setTitle("분석결과").setMessage("분석결과 해당 사진은 크랙이 아닙니당\n이용해주셔서 감사합니다.\n다음에 다시 이용해주세요.");
+                            builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                                @Override
+                                public void onClick(DialogInterface dialog, int id)
+                                {
+                                    // 어디로 보낼지 모르게땨 ~
+                                }
+                            });
+                            AlertDialog alertDialog = builder.create();
+                            alertDialog.show();
                         }
                     }
                 },
