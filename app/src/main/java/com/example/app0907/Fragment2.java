@@ -5,6 +5,7 @@ import static android.app.Activity.RESULT_OK;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +13,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.location.Geocoder;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,21 +30,34 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.GenericArrayType;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Fragment2 extends Fragment {
@@ -52,7 +68,7 @@ public class Fragment2 extends Fragment {
 //    추가
     private static final int REQUEST_IMAGE_CODE = 101;
     final static int TAKE_PICTURE=1;
-    Bitmap bitmap;
+    private Bitmap bitmap;
 
     RequestQueue requestQueue;
     TextView testView;
@@ -65,6 +81,20 @@ public class Fragment2 extends Fragment {
 
     // 로고 클릭시 home으로 가기
     TextView tvHome;
+
+    // 로딩중 표시
+    private ProgressDialog progressDialog;
+
+    // 서버에 업로드할 문자열 된 이미지
+    private String imageString;
+
+    // 현재 사진 경로 저장
+    private String currentPhotoPath;
+
+    // 변수선언
+    private Float lat,lon;
+    Geocoder geocoder;
+    private  boolean valid = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -140,8 +170,12 @@ public class Fragment2 extends Fragment {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String filename = Environment.getExternalStorageDirectory().getPath()+"/"+imv;
-                Toast.makeText(getActivity(), filename, Toast.LENGTH_SHORT).show();
+                progressDialog = new ProgressDialog(view.getContext());
+                progressDialog.setMessage("분석중입니다.\n잠시만 기다려 주세요.");
+                progressDialog.show();
+
+                sendImage();
+                testView.setText(Environment.getExternalStorageDirectory().getPath());
             }
         });
 
@@ -158,8 +192,8 @@ public class Fragment2 extends Fragment {
                     //권한 있음
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(intent, 1);
-                }
 
+                    }
             }
 
         });
@@ -176,6 +210,51 @@ public class Fragment2 extends Fragment {
         return view;
     }
 
+    // 이미지를 플라스크에 전송
+    private void sendImage() {
+
+        //비트맵 이미지를 byte로 변환 -> base64형태로 변환
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+
+
+        //base64형태로 변환된 이미지 데이터를 플라스크 서버로 전송
+        String flask_url = "http://222.102.104.237:5000/sendImage";
+        StringRequest request = new StringRequest(Request.Method.POST, flask_url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        progressDialog.dismiss();
+                        if(response.equals("true")){
+                            Toast.makeText(getActivity(), "업로드 성공", Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "업로드 실패", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getActivity(), "업로드 서버 연결 실패", Toast.LENGTH_LONG).show();
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("image", imageString);
+
+                return params;
+            }
+        };
+
+        request.setShouldCache(false);
+        requestQueue.add(request);
+    }
+
 
     // 이미지를 이미지뷰에 넣기
     @Override
@@ -184,6 +263,8 @@ public class Fragment2 extends Fragment {
         // 갤러리 이미지 가져오는 기능
         if (requestCode == GET_GALLERY_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri selectedImageUri = data.getData();
+            // bitmap에 저장
+            getBitmap(selectedImageUri);
             imv.setImageURI(selectedImageUri);
         }
         // 촬영한 사진 가져오는 기능
@@ -198,6 +279,16 @@ public class Fragment2 extends Fragment {
                 break;
         }
 
+    }
+
+    // Uri에서 bisap
+    private void getBitmap(Uri selectedImageUri) {
+        // 서버로 이미지를 전송하기 위한 비트맵 변환
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // 카메라 권한 승인
