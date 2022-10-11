@@ -6,6 +6,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Camera;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Geocoder;
 import android.media.ExifInterface;
@@ -29,6 +31,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
@@ -50,14 +53,18 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.tabs.TabLayout;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.GenericArrayType;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -208,7 +215,22 @@ public class Fragment2 extends Fragment {
                 } else {
                     //권한 있음
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intent, 1);
+                    if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                        File photoFile = null;
+
+                        try {
+                            photoFile = createImageFile();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (photoFile != null) {
+                            Uri providerURI = FileProvider.getUriForFile(view.getContext(),"com.example.camera.fileProvider",photoFile);
+                            intent.putExtra(MediaStore.EXTRA_OUTPUT,providerURI);
+                            startActivityForResult(intent, 1);
+                        }
+                    }
+//                    startActivityForResult(intent, 1);
 
                     }
             }
@@ -227,11 +249,52 @@ public class Fragment2 extends Fragment {
         return view;
     }
 
+//    // 해상도 조절
+//    private void setPic(Bitmap bitmap) {
+//        // Get the dimensions of the View
+//        int targetW = imv.getWidth();
+//        int targetH = imv.getHeight();
+//        Log.d("해상도", String.valueOf(targetW));
+//        Log.d("해상도", String.valueOf(targetH));
+//
+////        targetW = 302;
+////        targetH = 302;
+//
+//        // Get the dimensions of the bitmap
+//        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+//        bmOptions.inJustDecodeBounds = true;
+//
+//        int photoW = bmOptions.outWidth;
+//        int photoH = bmOptions.outHeight;
+//        photoW = 604*1024;
+//        photoH = 604*1024;
+//        Log.d("해상도", String.valueOf(photoW));
+//        Log.d("해상도", String.valueOf(photoH));
+//
+//
+//        // Determine how much to scale down the image
+//        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+//
+//        // Decode the image file into a Bitmap sized to fill the View
+//        bmOptions.inJustDecodeBounds = false;
+//        bmOptions.inSampleSize = scaleFactor;
+//        bmOptions.inPurgeable = true;
+//
+//        bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
+//        imv.setImageBitmap(bitmap);
+//    }
+
     // 이미지를 플라스크에 전송
     private void sendImage() {
 
         //비트맵 이미지를 byte로 변환 -> base64형태로 변환
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        // start
+//        setPic(bitmap);
+        // end
+
+
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] imageBytes = baos.toByteArray();
         imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
@@ -312,10 +375,17 @@ public class Fragment2 extends Fragment {
         switch (requestCode){
             case TAKE_PICTURE:
                 if(resultCode==RESULT_OK && data.hasExtra("data")){
-                    bitmap = (Bitmap)data.getExtras().get("data");
-                    if(bitmap!=null){
-                        imv.setImageBitmap(bitmap);
-                    }
+//                    bitmap = (Bitmap)data.getExtras().get("data");
+//                    if(bitmap!=null){
+//                        imv.setImageBitmap(bitmap);
+//                    }
+                    Uri picturePhotoURI = Uri.fromFile(new File(currentPhotoPath));
+
+                    getBitmap(picturePhotoURI);
+                    imv.setImageBitmap(bitmap);
+
+                    // 갤러리에 사진 저장
+                    saveFile(currentPhotoPath);
                 }
                 break;
         }
@@ -335,6 +405,74 @@ public class Fragment2 extends Fragment {
         currentPhotoPath = image.getAbsolutePath();
 
         return image;
+    }
+
+    //갤러리 사진 저장 기능
+    private void saveFile(String currentPhotoPath) {
+
+        Bitmap bitmap = BitmapFactory.decodeFile( currentPhotoPath );
+
+        ContentValues values = new ContentValues( );
+
+        //실제 앨범에 저장될 이미지이름
+        values.put( MediaStore.Images.Media.DISPLAY_NAME, new SimpleDateFormat( "yyyyMMdd_HHmmss", Locale.US ).format( new Date( ) ) + ".jpg" );
+        values.put( MediaStore.Images.Media.MIME_TYPE, "image/*" );
+
+        //저장될 경로 -> /내장 메모리/DCIM/ 에 'AndroidQ' 폴더로 지정
+        values.put( MediaStore.Images.Media.RELATIVE_PATH, "DCIM/AndroidQ" );
+
+        Uri u = MediaStore.Images.Media.getContentUri( MediaStore.VOLUME_EXTERNAL );
+        Uri uri = getActivity().getContentResolver( ).insert( u, values ); //이미지 Uri를 MediaStore.Images에 저장
+
+        try {
+            /*
+             ParcelFileDescriptor: 공유 파일 요청 객체
+             ContentResolver: 어플리케이션끼리 특정한 데이터를 주고 받을 수 있게 해주는 기술(공용 데이터베이스)
+                            ex) 주소록이나 음악 앨범이나 플레이리스트 같은 것에도 접근하는 것이 가능
+
+            getContentResolver(): ContentResolver객체 반환
+            */
+
+            ParcelFileDescriptor parcelFileDescriptor = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                parcelFileDescriptor = getActivity().getContentResolver( ).openFileDescriptor( uri, "w", null ); //미디어 파일 열기
+            }
+            if ( parcelFileDescriptor == null ) return;
+
+            //바이트기반스트림을 이용하여 JPEG파일을 바이트단위로 쪼갠 후 저장
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream( );
+
+            //비트맵 형태 이미지 크기 압축
+            bitmap.compress( Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream );
+            byte[] b = byteArrayOutputStream.toByteArray( );
+            InputStream inputStream = new ByteArrayInputStream( b );
+
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream( );
+            int bufferSize = 1024;
+            byte[] buffers = new byte[ bufferSize ];
+
+            int len = 0;
+            while ( ( len = inputStream.read( buffers ) ) != -1 ) {
+                buffer.write( buffers, 0, len );
+            }
+
+            byte[] bs = buffer.toByteArray( );
+            FileOutputStream fileOutputStream = new FileOutputStream( parcelFileDescriptor.getFileDescriptor( ) );
+            fileOutputStream.write( bs );
+            fileOutputStream.close( );
+            inputStream.close( );
+            parcelFileDescriptor.close( );
+
+            getActivity().getContentResolver( ).update( uri, values, null, null ); //MediaStore.Images 테이블에 이미지 행 추가 후 업데이트
+
+        } catch ( Exception e ) {
+            e.printStackTrace( );
+        }
+
+        values.clear( );
+        values.put( MediaStore.Images.Media.IS_PENDING, 0 ); //실행하는 기기에서 앱이 IS_PENDING 값을 1로 설정하면 독점 액세스 권한 획득
+        getActivity().getContentResolver( ).update( uri, values, null, null );
+
     }
 
     // Uri에서 bisap

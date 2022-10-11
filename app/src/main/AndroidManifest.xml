@@ -28,14 +28,15 @@
         android:theme="@style/Theme.App0907"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
         <provider
-            android:authorities="com.example.app0907"
             android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.camera.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths"/>
+                android:resource="@xml/file_path"/>
         </provider>
         <activity
             android:name=".MainActivity"
