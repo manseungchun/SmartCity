@@ -48,6 +48,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.tabs.TabLayout;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -95,6 +96,8 @@ public class Fragment2 extends Fragment {
     private Float lat,lon;
     Geocoder geocoder;
     private  boolean valid = false;
+
+    static final String TAG = "카메라";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -260,7 +263,7 @@ public class Fragment2 extends Fragment {
                             Toast.makeText(getActivity(), "업로드 실패", Toast.LENGTH_LONG).show();
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-                        builder.setTitle("분석결과").setMessage("분석결과 해당 사진은 크랙이 아닙니당\n이용해주셔서 감사합니다.\n다음에 다시 이용해주세요.");
+                        builder.setTitle("분석결과").setMessage("분석결과 해당 사진은 크랙이 감지되지 않았습니다.\n이용해주셔서 감사합니다.\n다음에 다시 이용해주세요.");
                             builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
                                 @Override
                                 public void onClick(DialogInterface dialog, int id)
@@ -317,6 +320,21 @@ public class Fragment2 extends Fragment {
                 break;
         }
 
+    }
+
+    // 카메라 촬영 시 임시로 사진을 저장하고 사진위치에 대한 Uri 정보를 가져오는 메소드
+    private File createImageFile() throws IOException{
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_"+timeStamp+"_";
+
+        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName,".jpg", storageDir);
+
+        Log.d(TAG,"사진저장 >>"+storageDir.toString());
+
+        currentPhotoPath = image.getAbsolutePath();
+
+        return image;
     }
 
     // Uri에서 bisap
