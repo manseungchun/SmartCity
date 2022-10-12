@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
@@ -23,6 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.exifinterface.media.ExifInterface;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -60,9 +62,9 @@ public class Fragment2 extends Fragment {
     Button galbtn, picbtn, submitBtn;
     private final int GET_GALLERY_IMAGE = 200;
     private ImageView imv;
-//    추가
+    //    추가
     private static final int REQUEST_IMAGE_CODE = 101;
-//    final static int TAKE_PICTURE=1;
+    //    final static int TAKE_PICTURE=1;
     private Bitmap bitmap;
 
     RequestQueue requestQueue;
@@ -87,9 +89,9 @@ public class Fragment2 extends Fragment {
 //    private String currentPhotoPath;
 
     // 변수선언
-    private Float lat,lon;
+    private Float lat, lon;
     Geocoder geocoder;
-    private  boolean valid = false;
+    private boolean valid = false;
 
 //    static final String TAG = "카메라";
 
@@ -131,7 +133,7 @@ public class Fragment2 extends Fragment {
 
         // 저장된 로그인 시 이름 빼오기
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("test", Context.MODE_PRIVATE);
-        name = sharedPreferences.getString("name","");
+        name = sharedPreferences.getString("name", "");
 
         // 로그아웃
         logoutbtn.setOnClickListener(new View.OnClickListener() {
@@ -140,17 +142,15 @@ public class Fragment2 extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
                 builder.setTitle("로그아웃").setMessage("로그아웃 하시겠습니까?");
-                builder.setPositiveButton("아니요", new DialogInterface.OnClickListener(){
+                builder.setPositiveButton("아니요", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int id)
-                    {
+                    public void onClick(DialogInterface dialog, int id) {
                         Toast.makeText(getActivity().getApplicationContext(), "로그아웃 취소", Toast.LENGTH_SHORT).show();
                     }
                 });
-                builder.setNegativeButton("예", new DialogInterface.OnClickListener(){
+                builder.setNegativeButton("예", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int id)
-                    {
+                    public void onClick(DialogInterface dialog, int id) {
                         Toast.makeText(getActivity().getApplicationContext(), "로그아웃 성공", Toast.LENGTH_SHORT).show();
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.clear();
@@ -183,14 +183,13 @@ public class Fragment2 extends Fragment {
                     progressDialog.show();
 
                     sendImage();
-                }else{
+                } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
                     builder.setTitle("제출실패").setMessage("사진을 업로드 해주시길 바랍니다.");
-                    builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                    builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int id)
-                        {
+                        public void onClick(DialogInterface dialog, int id) {
                         }
                     });
                     AlertDialog alertDialog = builder.create();
@@ -200,11 +199,10 @@ public class Fragment2 extends Fragment {
             }
         });
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if(getActivity().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (getActivity().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 Log.d(TAG, "권한 설정 완료");
-            }
-            else {
+            } else {
                 Log.d(TAG, "권한 설정 요청");
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
@@ -252,14 +250,14 @@ public class Fragment2 extends Fragment {
 
         int photoW = bmOptions.outWidth;
         int photoH = bmOptions.outHeight;
-        photoW = 604*1024;
-        photoH = 604*1024;
+        photoW = 604 * 1024;
+        photoH = 604 * 1024;
         Log.d("해상도", String.valueOf(photoW));
         Log.d("해상도", String.valueOf(photoH));
 
 
         // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
 
         // Decode the image file into a Bitmap sized to fill the View
         bmOptions.inJustDecodeBounds = false;
@@ -294,30 +292,27 @@ public class Fragment2 extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         progressDialog.dismiss();
-                        if(response.equals("true")){
+                        if (response.equals("true")) {
                             Toast.makeText(getActivity(), "업로드 성공", Toast.LENGTH_LONG).show();
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-                            builder.setTitle("분석결과").setMessage("분석결과 해당 사진은\n"+response+"(으)로 판별되었습니다.\n100포인트가 적립됩니다.");
-                            builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                            builder.setTitle("분석결과").setMessage("분석결과 해당 사진은\n" + response + "(으)로 판별되었습니다.\n100포인트가 적립됩니다.");
+                            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int id)
-                                {
+                                public void onClick(DialogInterface dialog, int id) {
                                     // 어디로 보낼지 모르게땨 ~
                                 }
                             });
                             AlertDialog alertDialog = builder.create();
                             alertDialog.show();
-                        }
-                        else{
+                        } else {
                             Toast.makeText(getActivity(), "업로드 실패", Toast.LENGTH_LONG).show();
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-                        builder.setTitle("분석결과").setMessage("분석결과 해당 사진은 크랙이 감지되지 않았습니다.\n이용해주셔서 감사합니다.\n다음에 다시 이용해주세요.");
-                            builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                            builder.setTitle("분석결과").setMessage("분석결과 해당 사진은 크랙이 감지되지 않았습니다.\n이용해주셔서 감사합니다.\n다음에 다시 이용해주세요.");
+                            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int id)
-                                {
+                                public void onClick(DialogInterface dialog, int id) {
                                     // 어디로 보낼지 모르게땨 ~
                                 }
                             });
@@ -332,7 +327,7 @@ public class Fragment2 extends Fragment {
                         progressDialog.dismiss();
                         Toast.makeText(getActivity(), "업로드 서버 연결 실패", Toast.LENGTH_LONG).show();
                     }
-                }){
+                }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
@@ -357,9 +352,30 @@ public class Fragment2 extends Fragment {
             // bitmap에 저장
             getBitmap(selectedImageUri);
             imv.setImageURI(selectedImageUri);
+
+            String realPath = getRealPathFromURI(selectedImageUri);
+
+            try {
+                ExifInterface eif = new ExifInterface(realPath);
+                String GPS_LATITUDE = eif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
+                String attrLATITUDE_REF = eif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
+                String attrLONGITUDE = eif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
+                String attrLONGITUDE_REF = eif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
+
+
+                Log.v("asdf 1", GPS_LATITUDE);
+                Log.v("asdf 2", attrLATITUDE_REF);
+                Log.v("asdf 3", attrLONGITUDE);
+                Log.v("asdf 4", attrLONGITUDE_REF);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
         }
         // 촬영한 사진 가져오는 기능
-        try{
+        try {
             switch (requestCode) {
                 case REQUEST_TAKE_PHOTO: {
                     if (resultCode == RESULT_OK) {
@@ -368,14 +384,18 @@ public class Fragment2 extends Fragment {
                             ImageDecoder.Source source = ImageDecoder.createSource(getActivity().getContentResolver(), Uri.fromFile(file));
                             try {
                                 bitmap = ImageDecoder.decodeBitmap(source);
-                                if (bitmap != null) { imv.setImageBitmap(bitmap); }
+                                if (bitmap != null) {
+                                    imv.setImageBitmap(bitmap);
+                                }
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         } else {
                             try {
                                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), Uri.fromFile(file));
-                                if (bitmap != null) { imv.setImageBitmap(bitmap); }
+                                if (bitmap != null) {
+                                    imv.setImageBitmap(bitmap);
+                                }
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -384,21 +404,21 @@ public class Fragment2 extends Fragment {
                     break;
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
     // 카메라 촬영 시 임시로 사진을 저장하고 사진위치에 대한 Uri 정보를 가져오는 메소드
-    private File createImageFile() throws IOException{
+    private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_"+timeStamp+"_";
+        String imageFileName = "JPEG_" + timeStamp + "_";
 
         File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(imageFileName,".jpg", storageDir);
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
 
-        Log.d(TAG,"사진저장 >>"+storageDir);
+        Log.d(TAG, "사진저장 >>" + storageDir);
 
         mCurrentPhotoPath = image.getAbsolutePath();
 
@@ -488,7 +508,7 @@ public class Fragment2 extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Log.d(TAG, "onRequestPermissionsResult");
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED ) {
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "Permission: " + permissions[0] + "was " + grantResults[0]);
         }
     }
@@ -496,12 +516,14 @@ public class Fragment2 extends Fragment {
     // 카메라 인텐트 실행하는 부분
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if(takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             File photoFile = null;
 
-            try { photoFile = createImageFile(); }
-            catch (IOException ex) { }
-            if(photoFile != null) {
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+            }
+            if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(getContext(), "com.example.app0907.fileprovider", photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
@@ -512,25 +534,44 @@ public class Fragment2 extends Fragment {
     // 로그아웃시 프라그먼트1로 가기
     private void FragmentView(int i) {
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        switch (i){
+        switch (i) {
             case 1:
                 Fragment1 fragment1 = new Fragment1();
-                transaction.replace(R.id.fl2,fragment1);
+                transaction.replace(R.id.fl2, fragment1);
                 // 새로고침해서 로그인 버튼으로 출력
-                try{
+                try {
                     // TODO 액티비티 화면 재갱신 시키는 코드
                     Intent intent = getActivity().getIntent();
                     getActivity().finish(); // 현재 액티비티 종료 실시
-                    getActivity().overridePendingTransition(0,0);// 인텐트 애니메이션 없애기
+                    getActivity().overridePendingTransition(0, 0);// 인텐트 애니메이션 없애기
                     startActivity(intent);// 현재 액티비티 재실행 실시
-                    getActivity().overridePendingTransition(0,0);// 인텐트 애니메이션 없애기
-                }catch (Exception e){
+                    getActivity().overridePendingTransition(0, 0);// 인텐트 애니메이션 없애기
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 transaction.commit();
                 break;
 
         }
+    }
+
+
+    private String getRealPathFromURI(Uri contentURI) {
+
+        String result;
+        Cursor cursor = getContext().getContentResolver().query(contentURI, null, null, null, null);
+
+        if (cursor == null) { // Source is Dropbox or other similar local file path
+            result = contentURI.getPath();
+
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            result = cursor.getString(idx);
+            cursor.close();
+        }
+
+        return result;
     }
 }
 
