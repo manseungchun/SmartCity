@@ -12,8 +12,10 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageDecoder;
 import android.location.Geocoder;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -60,7 +62,7 @@ public class Fragment2 extends Fragment {
     private ImageView imv;
 //    추가
     private static final int REQUEST_IMAGE_CODE = 101;
-    final static int TAKE_PICTURE=1;
+//    final static int TAKE_PICTURE=1;
     private Bitmap bitmap;
 
     RequestQueue requestQueue;
@@ -82,14 +84,24 @@ public class Fragment2 extends Fragment {
     private String imageString;
 
     // 현재 사진 경로 저장
-    private String currentPhotoPath;
+//    private String currentPhotoPath;
 
     // 변수선언
     private Float lat,lon;
     Geocoder geocoder;
     private  boolean valid = false;
 
-    static final String TAG = "카메라";
+//    static final String TAG = "카메라";
+
+    // 카메라
+    final private static String TAG = "GILBOMI";
+    Button btn_photo;
+    ImageView iv_photo;
+
+    final static int TAKE_PICTURE = 1;
+
+    String mCurrentPhotoPath;
+    final static int REQUEST_TAKE_PHOTO = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -188,36 +200,25 @@ public class Fragment2 extends Fragment {
             }
         });
 
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(getActivity().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "권한 설정 완료");
+            }
+            else {
+                Log.d(TAG, "권한 설정 요청");
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+        }
 
         // 사진찍기 버튼 클릭시
         picbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int permissionCheck = ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.CAMERA);
-                if (permissionCheck == PackageManager.PERMISSION_DENIED) {
-                    // 권한 없음
-                    ActivityCompat.requestPermissions((MainActivity) getActivity(), new String[]{Manifest.permission.CAMERA}, 0);
-                } else {
-                    //권한 있음
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-                        File photoFile = null;
-
-                        try {
-                            photoFile = createImageFile();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        if (photoFile != null) {
-                            Uri providerURI = FileProvider.getUriForFile(view.getContext(),"com.example.app0907.fileprovider",photoFile);
-                            intent.putExtra(MediaStore.EXTRA_OUTPUT,providerURI);
-                            startActivityForResult(intent, 1);
-                        }
-                    }
-//                    startActivityForResult(intent, 1);
-
-                    }
+                switch (view.getId()) {
+                    case R.id.picbtn:
+                        dispatchTakePictureIntent();
+                        break;
+                }
             }
 
         });
@@ -265,7 +266,7 @@ public class Fragment2 extends Fragment {
         bmOptions.inSampleSize = scaleFactor;
         bmOptions.inPurgeable = true;
 
-        bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
+        bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
 //        imv.setImageBitmap(bitmap);
         return bitmap;
     }
@@ -358,16 +359,35 @@ public class Fragment2 extends Fragment {
             imv.setImageURI(selectedImageUri);
         }
         // 촬영한 사진 가져오는 기능
-        switch (requestCode){
-            case TAKE_PICTURE:
-                if(resultCode==RESULT_OK && data.hasExtra("data")){
-                    bitmap = (Bitmap)data.getExtras().get("data");
-                    if(bitmap!=null){
-                        imv.setImageBitmap(bitmap);
+        try{
+            switch (requestCode) {
+                case REQUEST_TAKE_PHOTO: {
+                    if (resultCode == RESULT_OK) {
+                        file = new File(mCurrentPhotoPath);
+                        if (Build.VERSION.SDK_INT >= 29) {
+                            ImageDecoder.Source source = ImageDecoder.createSource(getActivity().getContentResolver(), Uri.fromFile(file));
+                            try {
+                                bitmap = ImageDecoder.decodeBitmap(source);
+                                if (bitmap != null) { imv.setImageBitmap(bitmap); }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            try {
+                                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), Uri.fromFile(file));
+                                if (bitmap != null) { imv.setImageBitmap(bitmap); }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
+                    break;
                 }
-                break;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
     }
 
     // 카메라 촬영 시 임시로 사진을 저장하고 사진위치에 대한 Uri 정보를 가져오는 메소드
@@ -380,7 +400,7 @@ public class Fragment2 extends Fragment {
 
         Log.d(TAG,"사진저장 >>"+storageDir);
 
-        currentPhotoPath = image.getAbsolutePath();
+        mCurrentPhotoPath = image.getAbsolutePath();
 
         return image;
     }
@@ -466,12 +486,25 @@ public class Fragment2 extends Fragment {
     // 카메라 권한 승인
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 0) {
-            if (grantResults[0] == 0) {
-                Toast.makeText(getActivity().getApplicationContext(), "카메라 권한이 승인됨", Toast.LENGTH_SHORT).show();
-            } else {
-                //권한 거절된 경우
-                Toast.makeText(getActivity().getApplicationContext(), "카메라 권한이 거절 되었습니다.카메라를 이용하려면 권한을 승낙하여야 합니다.", Toast.LENGTH_SHORT).show();
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.d(TAG, "onRequestPermissionsResult");
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED ) {
+            Log.d(TAG, "Permission: " + permissions[0] + "was " + grantResults[0]);
+        }
+    }
+
+    // 카메라 인텐트 실행하는 부분
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if(takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            File photoFile = null;
+
+            try { photoFile = createImageFile(); }
+            catch (IOException ex) { }
+            if(photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(getContext(), "com.example.app0907.fileprovider", photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
         }
     }
