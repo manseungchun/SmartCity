@@ -12,9 +12,12 @@
     <root-path name="root" path="."/>
 
     <!--  Environment.getExternalStorageDirectory() 외부저장소  -->
+<!--    <external-path-->
+<!--        name="external"-->
+<!--        path="." />-->
     <external-path
-        name="external"
-        path="." />
+        name="my_images"
+        path="Android/data/com.example.app0907/files/Pictures"/>
 
     <!--  Environment.getExternalCacheDir() 외부저장소  -->
     <external-cache-path
