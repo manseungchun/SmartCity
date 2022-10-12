@@ -3,6 +3,7 @@ package com.example.app0907;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -187,6 +188,9 @@ public class login extends AppCompatActivity {
                 requestQueue.add(request);
             }
         });
+
+
+
 
         imgJoin.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -5,6 +5,7 @@ import static android.app.Activity.RESULT_OK;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,6 +30,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
@@ -48,12 +50,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -204,7 +210,8 @@ public class Fragment2 extends Fragment {
                 Log.d(TAG, "권한 설정 완료");
             } else {
                 Log.d(TAG, "권한 설정 요청");
-                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.ACCESS_MEDIA_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
             }
         }
 
@@ -355,21 +362,18 @@ public class Fragment2 extends Fragment {
 
             String realPath = getRealPathFromURI(selectedImageUri);
 
+            Log.v("asdf", realPath);
+
             try {
                 ExifInterface eif = new ExifInterface(realPath);
-                String GPS_LATITUDE = eif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
-                String attrLATITUDE_REF = eif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
-                String attrLONGITUDE = eif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
-                String attrLONGITUDE_REF = eif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
+                double[] GPS_LATITUDE = eif.getLatLong();
 
 
-                Log.v("asdf 1", GPS_LATITUDE);
-                Log.v("asdf 2", attrLATITUDE_REF);
-                Log.v("asdf 3", attrLONGITUDE);
-                Log.v("asdf 4", attrLONGITUDE_REF);
+                Log.v("asdf 1", GPS_LATITUDE[0] + "");
+                Log.v("asdf 2", GPS_LATITUDE[1] + "");
 
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.v("asdf", e.toString());
             }
 
 
@@ -400,6 +404,32 @@ public class Fragment2 extends Fragment {
                                 e.printStackTrace();
                             }
                         }
+
+                        String realPath = getRealPathFromURI(Uri.fromFile(file));
+                        Log.v("asdf", realPath);
+
+                        try {
+                            ExifInterface eif = new ExifInterface(realPath);
+                            double[] GPS_LATITUDE = eif.getLatLong();
+
+
+                            Log.v("latlon 1", GPS_LATITUDE[0] + "");
+                            Log.v("latlon 2", GPS_LATITUDE[1] + "");
+
+//                            String GPS_LATITUDE = eif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
+//                            String attrLATITUDE_REF = eif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
+//                            String attrLONGITUDE = eif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
+//                            String attrLONGITUDE_REF = eif.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
+//
+//
+//                            Log.v("asdf 1", GPS_LATITUDE);
+//                            Log.v("asdf 2", attrLATITUDE_REF);
+//                            Log.v("asdf 3", attrLONGITUDE);
+//                            Log.v("asdf 4", attrLONGITUDE_REF);
+
+                        } catch (IOException e) {
+                            Log.v("asdf", e.toString());
+                        }
                     }
                     break;
                 }
@@ -426,72 +456,72 @@ public class Fragment2 extends Fragment {
     }
 
     //갤러리 사진 저장 기능
-//    private void saveFile(String currentPhotoPath) {
-//
-//        Bitmap bitmap = BitmapFactory.decodeFile( currentPhotoPath );
-//
-//        ContentValues values = new ContentValues( );
-//
-//        //실제 앨범에 저장될 이미지이름
-//        values.put( MediaStore.Images.Media.DISPLAY_NAME, new SimpleDateFormat( "yyyyMMdd_HHmmss", Locale.US ).format( new Date( ) ) + ".jpg" );
-//        values.put( MediaStore.Images.Media.MIME_TYPE, "image/*" );
-//
-//        //저장될 경로 -> /내장 메모리/DCIM/ 에 'AndroidQ' 폴더로 지정
-//        values.put( MediaStore.Images.Media.RELATIVE_PATH, "DCIM/AndroidQ" );
-//
-//        Uri u = MediaStore.Images.Media.getContentUri( MediaStore.VOLUME_EXTERNAL );
-//        Uri uri = getActivity().getContentResolver( ).insert( u, values ); //이미지 Uri를 MediaStore.Images에 저장
-//
-//        try {
-//            /*
-//             ParcelFileDescriptor: 공유 파일 요청 객체
-//             ContentResolver: 어플리케이션끼리 특정한 데이터를 주고 받을 수 있게 해주는 기술(공용 데이터베이스)
-//                            ex) 주소록이나 음악 앨범이나 플레이리스트 같은 것에도 접근하는 것이 가능
-//
-//            getContentResolver(): ContentResolver객체 반환
-//            */
-//
-//            ParcelFileDescriptor parcelFileDescriptor = null;
-//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-//                parcelFileDescriptor = getActivity().getContentResolver( ).openFileDescriptor( uri, "w", null ); //미디어 파일 열기
-//            }
-//            if ( parcelFileDescriptor == null ) return;
-//
-//            //바이트기반스트림을 이용하여 JPEG파일을 바이트단위로 쪼갠 후 저장
-//            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream( );
-//
-//            //비트맵 형태 이미지 크기 압축
-//            bitmap.compress( Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream );
-//            byte[] b = byteArrayOutputStream.toByteArray( );
-//            InputStream inputStream = new ByteArrayInputStream( b );
-//
-//            ByteArrayOutputStream buffer = new ByteArrayOutputStream( );
-//            int bufferSize = 1024;
-//            byte[] buffers = new byte[ bufferSize ];
-//
-//            int len = 0;
-//            while ( ( len = inputStream.read( buffers ) ) != -1 ) {
-//                buffer.write( buffers, 0, len );
-//            }
-//
-//            byte[] bs = buffer.toByteArray( );
-//            FileOutputStream fileOutputStream = new FileOutputStream( parcelFileDescriptor.getFileDescriptor( ) );
-//            fileOutputStream.write( bs );
-//            fileOutputStream.close( );
-//            inputStream.close( );
-//            parcelFileDescriptor.close( );
-//
-//            getActivity().getContentResolver( ).update( uri, values, null, null ); //MediaStore.Images 테이블에 이미지 행 추가 후 업데이트
-//
-//        } catch ( Exception e ) {
-//            e.printStackTrace( );
-//        }
-//
-//        values.clear( );
-//        values.put( MediaStore.Images.Media.IS_PENDING, 0 ); //실행하는 기기에서 앱이 IS_PENDING 값을 1로 설정하면 독점 액세스 권한 획득
-//        getActivity().getContentResolver( ).update( uri, values, null, null );
-//
-//    }
+    private void saveFile(String currentPhotoPath) {
+
+        Bitmap bitmap = BitmapFactory.decodeFile( currentPhotoPath );
+
+        ContentValues values = new ContentValues( );
+
+        //실제 앨범에 저장될 이미지이름
+        values.put( MediaStore.Images.Media.DISPLAY_NAME, new SimpleDateFormat( "yyyyMMdd_HHmmss", Locale.US ).format( new Date( ) ) + ".jpg" );
+        values.put( MediaStore.Images.Media.MIME_TYPE, "image/*" );
+
+        //저장될 경로 -> /내장 메모리/DCIM/ 에 'AndroidQ' 폴더로 지정
+        values.put( MediaStore.Images.Media.RELATIVE_PATH, "DCIM/AndroidQ" );
+
+        Uri u = MediaStore.Images.Media.getContentUri( MediaStore.VOLUME_EXTERNAL );
+        Uri uri = getActivity().getContentResolver( ).insert( u, values ); //이미지 Uri를 MediaStore.Images에 저장
+
+        try {
+            /*
+             ParcelFileDescriptor: 공유 파일 요청 객체
+             ContentResolver: 어플리케이션끼리 특정한 데이터를 주고 받을 수 있게 해주는 기술(공용 데이터베이스)
+                            ex) 주소록이나 음악 앨범이나 플레이리스트 같은 것에도 접근하는 것이 가능
+
+            getContentResolver(): ContentResolver객체 반환
+            */
+
+            ParcelFileDescriptor parcelFileDescriptor = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                parcelFileDescriptor = getActivity().getContentResolver( ).openFileDescriptor( uri, "w", null ); //미디어 파일 열기
+            }
+            if ( parcelFileDescriptor == null ) return;
+
+            //바이트기반스트림을 이용하여 JPEG파일을 바이트단위로 쪼갠 후 저장
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream( );
+
+            //비트맵 형태 이미지 크기 압축
+            bitmap.compress( Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream );
+            byte[] b = byteArrayOutputStream.toByteArray( );
+            InputStream inputStream = new ByteArrayInputStream( b );
+
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream( );
+            int bufferSize = 1024;
+            byte[] buffers = new byte[ bufferSize ];
+
+            int len = 0;
+            while ( ( len = inputStream.read( buffers ) ) != -1 ) {
+                buffer.write( buffers, 0, len );
+            }
+
+            byte[] bs = buffer.toByteArray( );
+            FileOutputStream fileOutputStream = new FileOutputStream( parcelFileDescriptor.getFileDescriptor( ) );
+            fileOutputStream.write( bs );
+            fileOutputStream.close( );
+            inputStream.close( );
+            parcelFileDescriptor.close( );
+
+            getActivity().getContentResolver( ).update( uri, values, null, null ); //MediaStore.Images 테이블에 이미지 행 추가 후 업데이트
+
+        } catch ( Exception e ) {
+            e.printStackTrace( );
+        }
+
+        values.clear( );
+        values.put( MediaStore.Images.Media.IS_PENDING, 0 ); //실행하는 기기에서 앱이 IS_PENDING 값을 1로 설정하면 독점 액세스 권한 획득
+        getActivity().getContentResolver( ).update( uri, values, null, null );
+
+    }
 
     // Uri에서 bisap
     private void getBitmap(Uri selectedImageUri) {
