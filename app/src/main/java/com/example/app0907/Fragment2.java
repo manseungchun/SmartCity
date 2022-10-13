@@ -155,11 +155,6 @@ public class Fragment2 extends Fragment {
             }
         });
 
-//        // 백그라운드 권한 허용
-//        int permissioncheck = ContextCompat.checkSelfPermission(view.getContext(),Manifest.permission.ACCESS_BACKGROUND_LOCATION);
-//        if(permissioncheck == PackageManager.PERMISSION_DENIED){
-//            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION},0);
-//        }
 
 
         // 위도경도로 주소 찾기
@@ -232,25 +227,38 @@ public class Fragment2 extends Fragment {
             }
         });
 
+        // 다중 권한 (카메라,위치,데이터)설정
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (getActivity().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 Log.d(TAG, "권한 설정 완료");
             } else {
                 Log.d(TAG, "권한 설정 요청");
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.ACCESS_MEDIA_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                        Manifest.permission.ACCESS_MEDIA_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             }
         }
+
+//        //위치권한 요청
+//        permissionCheck = ContextCompat.checkSelfPermission(view.getContext(), Manifest.permission.ACCESS_FINE_LOCATION);
+//        if (permissionCheck == PackageManager.PERMISSION_DENIED) {
+//            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+//        }
+
+        // 카메라 권한 승인
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        Log.d(TAG, "onRequestPermissionsResult");
+//        if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+//            Log.d(TAG, "Permission: " + permissions[0] + "was " + grantResults[0]);
+//        }
+//    }
+
 
         // 사진찍기 버튼 클릭시
         picbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //위치권한 요청
-                permissionCheck = ContextCompat.checkSelfPermission(view.getContext(), Manifest.permission.ACCESS_FINE_LOCATION);
-                if (permissionCheck == PackageManager.PERMISSION_DENIED) {
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-                }
 
                 switch (view.getId()) {
                     case R.id.picbtn:
@@ -633,18 +641,6 @@ public class Fragment2 extends Fragment {
         }
     }
 
-    // 카메라 권한 승인
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.d(TAG, "onRequestPermissionsResult");
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, "Permission: " + permissions[0] + "was " + grantResults[0]);
-        }
-
-
-
-    }
 
 
     // 카메라 인텐트 실행하는 부분
