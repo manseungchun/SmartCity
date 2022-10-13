@@ -12,6 +12,8 @@ public class MoreVO {
     private String detail;
     // 접수확인
     private String receipt;
+    // 신고 이미지
+    private String img;
 
 
 
@@ -55,11 +57,20 @@ public class MoreVO {
         this.id = id;
     }
 
-    public MoreVO(String uploaddate, String spot, String id, String detail, String receipt) {
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public MoreVO(String uploaddate, String spot, String id, String detail, String receipt, String img) {
         this.uploaddate = uploaddate;
         this.spot = spot;
         this.id = id;
         this.detail = detail;
         this.receipt = receipt;
+        this.img = img;
     }
 }

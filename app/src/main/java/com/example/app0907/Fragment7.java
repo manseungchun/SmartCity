@@ -167,8 +167,9 @@ public class Fragment7 extends Fragment {
                                     String id = jsonObject1.getString("id");
                                     String detail = jsonObject1.getString("detail");
                                     String receipt = jsonObject1.getString("receipt");
+                                    String img = jsonObject1.getString("img");
 
-                                    data.add(new MoreVO(date,spot,id,detail,receipt));
+                                    data.add(new MoreVO(date,spot,id,detail,receipt,img));
 
                                     MoreAdapter adapter = new MoreAdapter(view.getContext(), R.layout.more, data);
 
