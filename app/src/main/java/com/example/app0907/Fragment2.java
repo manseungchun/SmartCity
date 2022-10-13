@@ -68,6 +68,10 @@ import java.util.Map;
 
 public class Fragment2 extends Fragment {
 
+
+    //위치권환 요청
+    int permissionCheck;
+    
     Button galbtn, picbtn, submitBtn;
     private final int GET_GALLERY_IMAGE = 200;
     private ImageView imv;
@@ -161,11 +165,7 @@ public class Fragment2 extends Fragment {
         // 위도경도로 주소 찾기
         geocoder = new Geocoder(view.getContext());
 
-        //위치권환 요청
-        int permissionCheck = ContextCompat.checkSelfPermission(view.getContext(),Manifest.permission.ACCESS_FINE_LOCATION);
-        if(permissionCheck == PackageManager.PERMISSION_DENIED){
-            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.ACCESS_FINE_LOCATION},0);
-        }
+
 
         // 저장된 로그인 시 이름 빼오기
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("test", Context.MODE_PRIVATE);
@@ -246,6 +246,12 @@ public class Fragment2 extends Fragment {
         picbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //위치권한 요청
+                permissionCheck = ContextCompat.checkSelfPermission(view.getContext(), Manifest.permission.ACCESS_FINE_LOCATION);
+                if (permissionCheck == PackageManager.PERMISSION_DENIED) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+                }
+
                 switch (view.getId()) {
                     case R.id.picbtn:
                         dispatchTakePictureIntent();
@@ -635,8 +641,10 @@ public class Fragment2 extends Fragment {
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "Permission: " + permissions[0] + "was " + grantResults[0]);
         }
-    }
 
+
+
+    }
 
 
     // 카메라 인텐트 실행하는 부분

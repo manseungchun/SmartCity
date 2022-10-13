@@ -53,7 +53,10 @@ public class Fragment1 extends Fragment {
     String name;
 
     URL img_url;
-    Bitmap bitmap;
+    Bitmap bitmap1, bitmap2, bitmap3;
+
+    HttpURLConnection conn;
+    InputStream is;
 
 
     @Override
@@ -191,15 +194,36 @@ public class Fragment1 extends Fragment {
                                     try {
                                         // 이미지 URL 경로
                                         for(int i=0; i<imgs.size();i++){
-                                            img_url = new URL("http://222.102.104.237:5000/static/" + imgs.get(0));
+                                            img_url = new URL("http://222.102.104.237:5000/static/" + imgs.get(i));
                                             Log.d("img", String.valueOf(img_url));
 
-                                            // web에서 이미지를 가져와 ImageView에 저장할 Bitmap을 만든다.
-                                            HttpURLConnection conn = (HttpURLConnection) img_url.openConnection();
-                                            conn.setDoInput(true); // 서버로부터 응답 수신
-                                            conn.connect(); //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
-                                            InputStream is = conn.getInputStream(); //inputStream 값 가져오기
-                                            bitmap = BitmapFactory.decodeStream(is); // Bitmap으로 변환
+                                            switch (i){
+                                                case 0:
+                                                    // web에서 이미지를 가져와 ImageView에 저장할 Bitmap을 만든다.
+                                                    conn = (HttpURLConnection) img_url.openConnection();
+                                                    conn.setDoInput(true); // 서버로부터 응답 수신
+                                                    conn.connect(); //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
+                                                    is = conn.getInputStream(); //inputStream 값 가져오기
+                                                    bitmap1 = BitmapFactory.decodeStream(is); // Bitmap으로 변환
+                                                    break;
+                                                case 1:
+                                                    // web에서 이미지를 가져와 ImageView에 저장할 Bitmap을 만든다.
+                                                    conn = (HttpURLConnection) img_url.openConnection();
+                                                    conn.setDoInput(true); // 서버로부터 응답 수신
+                                                    conn.connect(); //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
+                                                    is = conn.getInputStream(); //inputStream 값 가져오기
+                                                    bitmap2 = BitmapFactory.decodeStream(is); // Bitmap으로 변환
+                                                    break;
+                                                case 2:
+                                                    // web에서 이미지를 가져와 ImageView에 저장할 Bitmap을 만든다.
+                                                    conn = (HttpURLConnection) img_url.openConnection();
+                                                    conn.setDoInput(true); // 서버로부터 응답 수신
+                                                    conn.connect(); //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
+                                                    is = conn.getInputStream(); //inputStream 값 가져오기
+                                                    bitmap3 = BitmapFactory.decodeStream(is); // Bitmap으로 변환
+                                                    break;
+                                            }
+
                                         }
 
 
@@ -221,7 +245,9 @@ public class Fragment1 extends Fragment {
 
                                 //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
                                 //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
-                                ckimv1.setImageBitmap(bitmap);
+                                ckimv1.setImageBitmap(bitmap1);
+                                ckimv2.setImageBitmap(bitmap2);
+                                ckimv3.setImageBitmap(bitmap3);
 
                                 // 실시간 현황 슬라이드 오른쪽 버튼 클릭시
                                 rightbtn.setOnClickListener(new View.OnClickListener() {
@@ -232,9 +258,9 @@ public class Fragment1 extends Fragment {
                                         } else {
                                             idx++;
                                         }
-                                        ckimv1.setImageResource(Integer.parseInt(imgs.get(idx)));
-                                        ckimv2.setImageResource(Integer.parseInt(imgs.get(idx + 1)));
-                                        ckimv3.setImageResource(Integer.parseInt(imgs.get(idx + 2)));
+//                                        ckimv1.setImageResource(Integer.parseInt(imgs.get(idx)));
+//                                        ckimv2.setImageResource(Integer.parseInt(imgs.get(idx + 1)));
+//                                        ckimv3.setImageResource(Integer.parseInt(imgs.get(idx + 2)));
                                     }
                                 });
 
@@ -247,9 +273,9 @@ public class Fragment1 extends Fragment {
                                         } else {
                                             idx--;
                                         }
-                                        ckimv1.setImageResource(Integer.parseInt(imgs.get(idx)));
-                                        ckimv2.setImageResource(Integer.parseInt(imgs.get(idx + 1)));
-                                        ckimv3.setImageResource(Integer.parseInt(imgs.get(idx + 2)));
+//                                        ckimv1.setImageResource(Integer.parseInt(imgs.get(idx)));
+//                                        ckimv2.setImageResource(Integer.parseInt(imgs.get(idx + 1)));
+//                                        ckimv3.setImageResource(Integer.parseInt(imgs.get(idx + 2)));
                                     }
                                 });
                             } catch (InterruptedException e) {
