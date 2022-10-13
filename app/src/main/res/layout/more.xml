@@ -17,7 +17,7 @@
 
     <ImageView
         android:id="@+id/ivImg2"
-        android:layout_width="144dp"
+        android:layout_width="130dp"
         android:layout_height="149dp"
         app:layout_constraintBottom_toBottomOf="@+id/textView11"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,11 +28,11 @@
         android:id="@+id/call"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="19dp"
         android:fontFamily="@font/jua"
         android:text="신고일자 : "
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/ivImg2"
         app:layout_constraintTop_toTopOf="@+id/ivImg2" />
 
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/jua"
         android:text="date"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/call"
         app:layout_constraintStart_toEndOf="@+id/call"
         app:layout_constraintTop_toTopOf="@+id/call"
@@ -55,7 +55,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/jua"
         android:text="접수 확인"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/detail"
         app:layout_constraintTop_toBottomOf="@+id/detail" />
 
@@ -66,7 +66,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/jua"
         android:text="위치 : "
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/call"
         app:layout_constraintTop_toBottomOf="@+id/call" />
 
@@ -76,7 +76,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/jua"
         android:text="주소"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/addr"
         app:layout_constraintStart_toEndOf="@+id/addr"
         app:layout_constraintTop_toTopOf="@+id/addr" />
@@ -88,7 +88,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/jua"
         android:text="신고자 : "
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/addr"
         app:layout_constraintTop_toBottomOf="@+id/addr" />
 
@@ -98,7 +98,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/jua"
         android:text="아이디"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/addr2"
         app:layout_constraintStart_toEndOf="@+id/addr2"
         app:layout_constraintTop_toTopOf="@+id/addr2" />
@@ -108,7 +108,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/jua"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/detail"
         app:layout_constraintStart_toEndOf="@+id/detail"
         app:layout_constraintTop_toTopOf="@+id/detail" />
@@ -120,7 +120,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/jua"
         android:text="추가 접수 사항"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/addr2"
         app:layout_constraintTop_toBottomOf="@+id/addr2" />
 

@@ -41,6 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/jua"
         android:text="실시간 신고현황"
         android:textSize="16sp"
@@ -51,28 +52,26 @@
     <ImageView
         android:id="@+id/imageView24"
         android:layout_width="0dp"
-        android:layout_height="320dp"
-        android:layout_marginTop="32dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="8dp"
         android:src="@drawable/mainpng"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="308dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="3dp"
         android:backgroundTint="#FFFFFF"
         android:scaleType="fitCenter"
         android:src="@drawable/questionmark"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView24" />
+        app:layout_constraintTop_toBottomOf="@+id/ckimv2" />
 
     <ImageView
         android:id="@+id/logoutbtn"
@@ -89,23 +88,20 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="144dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="12dp"
         android:fontFamily="@font/jua"
         android:text="궁금한점이 있으신가요?"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageButton"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView24"
-        app:layout_constraintVertical_bias="0.945" />
+        app:layout_constraintEnd_toStartOf="@+id/imageButton" />
 
     <ImageView
         android:id="@+id/ckimv1"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="7dp"
         android:src="@drawable/crack"
         app:layout_constraintEnd_toStartOf="@+id/ckimv2"

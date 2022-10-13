@@ -5,11 +5,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,17 +22,28 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 
 
 public class Fragment1 extends Fragment {
-    int[] imgs = {R.drawable.crack,R.drawable.crack2,R.drawable.crack3,R.drawable.crack4
-            ,R.drawable.crack5,R.drawable.crack6,R.drawable.crack7,R.drawable.crack8
-            ,R.drawable.crack9};
+    ArrayList<String> imgs;
     int idx=0;
     ImageView loginbtn,logoutbtn,leftbtn,rightbtn;
     ImageView ckimv1,ckimv2,ckimv3;
@@ -37,6 +51,9 @@ public class Fragment1 extends Fragment {
     RequestQueue requestQueue;
     TextView vm;
     String name;
+
+    URL img_url;
+    Bitmap bitmap;
 
 
     @Override
@@ -50,6 +67,9 @@ public class Fragment1 extends Fragment {
         leftbtn = view.findViewById(R.id.leftbtn);
         rightbtn = view.findViewById(R.id.rightbtn);
         vm = view.findViewById(R.id.vm);
+
+        // img 담을 배열
+        imgs = new ArrayList<>();
 
 
         ckimv1 = view.findViewById(R.id.ckimv1);
@@ -141,35 +161,112 @@ public class Fragment1 extends Fragment {
             }
         });
 
-        // 실시간 현황 슬라이드 오른쪽 버튼 클릭시
-        rightbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(idx==imgs.length-3){
-                    idx=0;
-                }else{
-                    idx++;
-                }
-                ckimv1.setImageResource(imgs[idx]);
-                ckimv2.setImageResource(imgs[idx+1]);
-                ckimv3.setImageResource(imgs[idx+2]);
-            }
-        });
+        String url = "http://222.102.104.237:5000/AllImg";
 
-        // 실시간 현황 슬라이드 왼쪽 버튼 클릭 시
-        leftbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(idx==0){
-                    idx=imgs.length-3;
-                }else{
-                    idx--;
-                }
-                ckimv1.setImageResource(imgs[idx]);
-                ckimv2.setImageResource(imgs[idx+1]);
-                ckimv3.setImageResource(imgs[idx+2]);
-            }
-        });
+        StringRequest request = new StringRequest(
+                Request.Method.GET,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // 서버 연결 성공
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+
+                            JSONArray jsonArray = jsonObject.getJSONArray("data");
+                            if (jsonArray.length() != 0) {
+                                for(int i=0; i<jsonArray.length(); i++){
+                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                    String img = jsonObject1.getString("img");
+                                    imgs.add(img);
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                            Thread uThread = new Thread() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        // 이미지 URL 경로
+                                        for(int i=0; i<imgs.size();i++){
+                                            img_url = new URL("http://222.102.104.237:5000/static/" + imgs.get(0));
+                                            Log.d("img", String.valueOf(img_url));
+
+                                            // web에서 이미지를 가져와 ImageView에 저장할 Bitmap을 만든다.
+                                            HttpURLConnection conn = (HttpURLConnection) img_url.openConnection();
+                                            conn.setDoInput(true); // 서버로부터 응답 수신
+                                            conn.connect(); //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
+                                            InputStream is = conn.getInputStream(); //inputStream 값 가져오기
+                                            bitmap = BitmapFactory.decodeStream(is); // Bitmap으로 변환
+                                        }
+
+
+                                    } catch (MalformedURLException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            };
+
+                            uThread.start(); // 작업 Thread 실행
+
+                            try {
+                                //메인 Thread는 별도의 작업 Thread가 작업을 완료할 때까지 대기해야 한다.
+                                //join() 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다리도록 한다.
+                                //join() 메서드는 InterruptedException을 발생시킨다.
+                                uThread.join();
+
+                                //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
+                                //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
+                                ckimv1.setImageBitmap(bitmap);
+
+                                // 실시간 현황 슬라이드 오른쪽 버튼 클릭시
+                                rightbtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        if (idx == imgs.size() - 3) {
+                                            idx = 0;
+                                        } else {
+                                            idx++;
+                                        }
+                                        ckimv1.setImageResource(Integer.parseInt(imgs.get(idx)));
+                                        ckimv2.setImageResource(Integer.parseInt(imgs.get(idx + 1)));
+                                        ckimv3.setImageResource(Integer.parseInt(imgs.get(idx + 2)));
+                                    }
+                                });
+
+                                // 실시간 현황 슬라이드 왼쪽 버튼 클릭 시
+                                leftbtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        if (idx == 0) {
+                                            idx = imgs.size() - 3;
+                                        } else {
+                                            idx--;
+                                        }
+                                        ckimv1.setImageResource(Integer.parseInt(imgs.get(idx)));
+                                        ckimv2.setImageResource(Integer.parseInt(imgs.get(idx + 1)));
+                                        ckimv3.setImageResource(Integer.parseInt(imgs.get(idx + 2)));
+                                    }
+                                });
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // 서버 응답 실패
+                        Toast.makeText(getActivity(), "전체 이미지 연결 실패", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        request.setShouldCache(false);
+        requestQueue.add(request);
+
 
         // 더보기 버튼 클릭시
         vm.setOnClickListener(new View.OnClickListener() {

@@ -15,6 +15,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
+import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Build;
@@ -38,6 +39,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +61,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -74,7 +77,6 @@ public class Fragment2 extends Fragment {
     private Bitmap bitmap;
 
     RequestQueue requestQueue;
-    TextView testView;
 
     File file;
 
@@ -92,10 +94,10 @@ public class Fragment2 extends Fragment {
     private String imageString;
 
     // 현재 사진 경로 저장
-//    private String currentPhotoPath;
+//    private String mCurrentPhotoPath;
 
     // 변수선언
-    private Float lat, lon;
+//    private Float lat, lon;
     Geocoder geocoder;
     private boolean valid = false;
 
@@ -108,8 +110,18 @@ public class Fragment2 extends Fragment {
 
     final static int TAKE_PICTURE = 1;
 
-    String mCurrentPhotoPath;
+    String mmCurrentPhotoPath;
     final static int REQUEST_TAKE_PHOTO = 1;
+
+    // 위도 경도 저장
+    Double lat, lon;
+
+    // 좌표(위도,경도)를 주소나 지명으로 변환(반환타입)
+    List<Address> address;
+
+    // 추가사항
+    EditText edtDetail;
+    String detail;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -121,6 +133,8 @@ public class Fragment2 extends Fragment {
         galbtn = view.findViewById(R.id.galbtn);
         picbtn = view.findViewById(R.id.picbtn);
         imv = (ImageView) view.findViewById(R.id.imv);
+
+        edtDetail = view.findViewById(R.id.edtDetail);
 
         // login, logout
         loginbtn = view.findViewById(R.id.loginbtn);
@@ -136,6 +150,22 @@ public class Fragment2 extends Fragment {
                 startActivity(intent);
             }
         });
+
+//        // 백그라운드 권한 허용
+//        int permissioncheck = ContextCompat.checkSelfPermission(view.getContext(),Manifest.permission.ACCESS_BACKGROUND_LOCATION);
+//        if(permissioncheck == PackageManager.PERMISSION_DENIED){
+//            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION},0);
+//        }
+
+
+        // 위도경도로 주소 찾기
+        geocoder = new Geocoder(view.getContext());
+
+        //위치권환 요청
+        int permissionCheck = ContextCompat.checkSelfPermission(view.getContext(),Manifest.permission.ACCESS_FINE_LOCATION);
+        if(permissionCheck == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.ACCESS_FINE_LOCATION},0);
+        }
 
         // 저장된 로그인 시 이름 빼오기
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("test", Context.MODE_PRIVATE);
@@ -170,9 +200,6 @@ public class Fragment2 extends Fragment {
 
             }
         });
-
-
-        testView = view.findViewById(R.id.testView);
 
         // volley 연결할때 필요
         if (requestQueue == null) {
@@ -241,56 +268,59 @@ public class Fragment2 extends Fragment {
     }
 
     // 해상도 조절
-    private Bitmap setPic(Bitmap bitmap) {
-        // Get the dimensions of the View
-        int targetW = imv.getWidth();
-        int targetH = imv.getHeight();
-        Log.d("해상도", String.valueOf(targetW));
-        Log.d("해상도", String.valueOf(targetH));
-
-//        targetW = 302;
-//        targetH = 302;
-
-        // Get the dimensions of the bitmap
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
-        photoW = 604 * 1024;
-        photoH = 604 * 1024;
-        Log.d("해상도", String.valueOf(photoW));
-        Log.d("해상도", String.valueOf(photoH));
-
-
-        // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
-
-        // Decode the image file into a Bitmap sized to fill the View
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
-        bmOptions.inPurgeable = true;
-
-        bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
-//        imv.setImageBitmap(bitmap);
-        return bitmap;
-    }
+//    private Bitmap setPic(Bitmap bitmap) {
+//        // Get the dimensions of the View
+//        int targetW = imv.getWidth();
+//        int targetH = imv.getHeight();
+//        Log.d("해상도", String.valueOf(targetW));
+//        Log.d("해상도", String.valueOf(targetH));
+//
+////        targetW = 302;
+////        targetH = 302;
+//
+//        // Get the dimensions of the bitmap
+//        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+//        bmOptions.inJustDecodeBounds = true;
+//
+//        int photoW = bmOptions.outWidth;
+//        int photoH = bmOptions.outHeight;
+//        photoW = 604 * 1024;
+//        photoH = 604 * 1024;
+//        Log.d("해상도", String.valueOf(photoW));
+//        Log.d("해상도", String.valueOf(photoH));
+//
+//
+//        // Determine how much to scale down the image
+//        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+//
+//        // Decode the image file into a Bitmap sized to fill the View
+//        bmOptions.inJustDecodeBounds = false;
+//        bmOptions.inSampleSize = scaleFactor;
+//        bmOptions.inPurgeable = true;
+//
+//        bitmap = BitmapFactory.decodeFile(mmCurrentPhotoPath, bmOptions);
+////        imv.setImageBitmap(bitmap);
+//        return bitmap;
+//    }
 
     // 이미지를 플라스크에 전송
     private void sendImage() {
 
+        detail = edtDetail.getText().toString();
+        if(detail.isEmpty()){
+            detail = "추가사항이 없습니다.";
+        }
         //비트맵 이미지를 byte로 변환 -> base64형태로 변환
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        // start
-        setPic(bitmap);
-        // end
+//        // start
+//        setPic(bitmap);
+//        // end
 
 
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] imageBytes = baos.toByteArray();
         imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-
 
         //base64형태로 변환된 이미지 데이터를 플라스크 서버로 전송
         String flask_url = "http://222.102.104.237:5000/sendImage";
@@ -339,6 +369,17 @@ public class Fragment2 extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("image", imageString);
+                params.put("id",name);
+                params.put("lat", String.valueOf(lat));
+                params.put("lon", String.valueOf(lon));
+                params.put("addr", address.get(0).getAddressLine(0));
+                params.put("detail",detail);
+
+                Log.v("업로드",name);
+                Log.v("업로드", String.valueOf(lat));
+                Log.v("업로드", String.valueOf(lon));
+                Log.v("업로드",address.get(0).getAddressLine(0));
+                Log.v("업로드",detail);
 
                 return params;
             }
@@ -358,7 +399,7 @@ public class Fragment2 extends Fragment {
             Uri selectedImageUri = data.getData();
             // bitmap에 저장
             getBitmap(selectedImageUri);
-            imv.setImageURI(selectedImageUri);
+
 
             String realPath = getRealPathFromURI(selectedImageUri);
 
@@ -366,15 +407,46 @@ public class Fragment2 extends Fragment {
 
             try {
                 ExifInterface eif = new ExifInterface(realPath);
+                Log.v("asdf", String.valueOf(eif));
                 double[] GPS_LATITUDE = eif.getLatLong();
+                Log.v("asdf", String.valueOf(GPS_LATITUDE));
+                if(GPS_LATITUDE == null){
+                    Toast.makeText(getActivity(), "설정에서 위치 정보를 허용해주세요", Toast.LENGTH_SHORT).show();
+                }else{
+
+                    imv.setImageURI(selectedImageUri);
+
+                    lat = GPS_LATITUDE[0]; // 위도 저장
+                    lon = GPS_LATITUDE[1]; // 경도 저장
 
 
-                Log.v("asdf 1", GPS_LATITUDE[0] + "");
-                Log.v("asdf 2", GPS_LATITUDE[1] + "");
+
+                    Log.v("asdf 1", GPS_LATITUDE[0] + "");
+                    Log.v("asdf 2", GPS_LATITUDE[1] + "");
+
+                    // 위도경도를 주소로 변환
+                    address = null;
+                    try {
+                        address = geocoder.getFromLocation(lat,lon,10);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.d("위도경도","입출력 오류");
+                    }
+                    if (address != null) {
+                        if (address.size() == 0) {
+                            Log.v("위도경도","주소찾기 오류");
+                        }else{
+                            Log.v("위도경도", String.valueOf(address.get(0)));
+                        }
+                    }
+                }
+
 
             } catch (IOException e) {
                 Log.v("asdf", e.toString());
             }
+
+
 
 
         }
@@ -383,11 +455,12 @@ public class Fragment2 extends Fragment {
             switch (requestCode) {
                 case REQUEST_TAKE_PHOTO: {
                     if (resultCode == RESULT_OK) {
-                        file = new File(mCurrentPhotoPath);
+                        file = new File(mmCurrentPhotoPath);
                         if (Build.VERSION.SDK_INT >= 29) {
                             ImageDecoder.Source source = ImageDecoder.createSource(getActivity().getContentResolver(), Uri.fromFile(file));
                             try {
                                 bitmap = ImageDecoder.decodeBitmap(source);
+                                saveFile(mmCurrentPhotoPath);
                                 if (bitmap != null) {
                                     imv.setImageBitmap(bitmap);
                                 }
@@ -397,7 +470,9 @@ public class Fragment2 extends Fragment {
                         } else {
                             try {
                                 bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), Uri.fromFile(file));
+                                saveFile(mmCurrentPhotoPath);
                                 if (bitmap != null) {
+
                                     imv.setImageBitmap(bitmap);
                                 }
                             } catch (IOException e) {
@@ -412,9 +487,28 @@ public class Fragment2 extends Fragment {
                             ExifInterface eif = new ExifInterface(realPath);
                             double[] GPS_LATITUDE = eif.getLatLong();
 
+                            lat = GPS_LATITUDE[0]; // 위도 저장
+                            lon = GPS_LATITUDE[1]; // 경도 저장
 
-                            Log.v("latlon 1", GPS_LATITUDE[0] + "");
-                            Log.v("latlon 2", GPS_LATITUDE[1] + "");
+                            // 위도경도를 주소로 변환
+                            address = null;
+                            try {
+                                address = geocoder.getFromLocation(lat,lon,10);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                Log.d("위도경도","입출력 오류");
+                            }
+                            if (address != null) {
+                                if (address.size() == 0) {
+                                    Log.v("위도경도","주소찾기 오류");
+                                }else{
+                                    Log.v("위도경도",address.get(0).toString());
+                                }
+                            }
+
+
+                            Log.v("asdf 1", GPS_LATITUDE[0] + "");
+                            Log.v("asdf 2", GPS_LATITUDE[1] + "");
 
 //                            String GPS_LATITUDE = eif.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
 //                            String attrLATITUDE_REF = eif.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
@@ -450,15 +544,15 @@ public class Fragment2 extends Fragment {
 
         Log.d(TAG, "사진저장 >>" + storageDir);
 
-        mCurrentPhotoPath = image.getAbsolutePath();
+        mmCurrentPhotoPath = image.getAbsolutePath();
 
         return image;
     }
 
     //갤러리 사진 저장 기능
-    private void saveFile(String currentPhotoPath) {
+    private void saveFile(String mCurrentPhotoPath) {
 
-        Bitmap bitmap = BitmapFactory.decodeFile( currentPhotoPath );
+        Bitmap bitmap = BitmapFactory.decodeFile( mCurrentPhotoPath );
 
         ContentValues values = new ContentValues( );
 
@@ -542,6 +636,8 @@ public class Fragment2 extends Fragment {
             Log.d(TAG, "Permission: " + permissions[0] + "was " + grantResults[0]);
         }
     }
+
+
 
     // 카메라 인텐트 실행하는 부분
     private void dispatchTakePictureIntent() {
