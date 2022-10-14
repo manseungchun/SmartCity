@@ -79,7 +79,7 @@ public class login extends AppCompatActivity {
                 String pw = etPw.getText().toString();
 
                 // flask url -> login해주는 기능
-                String url = "http://222.102.104.237:5000/login";
+                String url = "http://222.102.104.237:5000/loginApp";
 
                 StringRequest request = new StringRequest(
                         Request.Method.POST,

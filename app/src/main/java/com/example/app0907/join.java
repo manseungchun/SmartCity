@@ -201,7 +201,7 @@ public class join extends AppCompatActivity {
                 }else{
                     tvPw2.setText("비밀번호가 일치합니다.");
 
-                    String url = "http://222.102.104.237:5000/join_result";
+                    String url = "http://222.102.104.237:5000/join";
 
                     StringRequest request = new StringRequest(
                             Request.Method.POST,

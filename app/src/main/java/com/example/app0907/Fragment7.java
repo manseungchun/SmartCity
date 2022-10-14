@@ -146,7 +146,7 @@ public class Fragment7 extends Fragment {
             }
         });
 
-        String url = "http://222.102.104.237:5000/AllReport";
+        String url = "http://222.102.104.237:5000/AllReportApp";
 
         StringRequest request = new StringRequest(
                 Request.Method.GET,

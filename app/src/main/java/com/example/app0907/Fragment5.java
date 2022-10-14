@@ -70,7 +70,7 @@ public class Fragment5 extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("test", Context.MODE_PRIVATE);
         name = sharedPreferences.getString("name","");
 
-        String url = "http://222.102.104.237:5000/report";
+        String url = "http://222.102.104.237:5000/reportApp";
 
         StringRequest request = new StringRequest(
                 Request.Method.POST,
