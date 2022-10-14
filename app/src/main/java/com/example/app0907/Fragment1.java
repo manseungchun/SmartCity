@@ -11,6 +11,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,8 +47,8 @@ import java.util.ArrayList;
 public class Fragment1 extends Fragment {
     ArrayList<String> imgs;
     int idx=0;
-    ImageView loginbtn,logoutbtn,leftbtn,rightbtn;
-    ImageView ckimv1,ckimv2,ckimv3;
+    ImageView loginbtn,logoutbtn;
+    ImageView ckimv1;
     ImageButton imageButton;
     RequestQueue requestQueue;
     TextView vm;
@@ -58,6 +60,11 @@ public class Fragment1 extends Fragment {
     HttpURLConnection conn;
     InputStream is;
 
+    // RecyclerView 가로로
+    private RecyclerView mRecyclerView;
+    private ArrayList<RecyclerViewItem> mList;
+    private RecyclerViewAdapter mRecyclerViewAdapter;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,17 +74,18 @@ public class Fragment1 extends Fragment {
         loginbtn = view.findViewById(R.id.loginbtn);
         logoutbtn = view.findViewById(R.id.logoutbtn);
         imageButton = view.findViewById(R.id.imageButton);
-        leftbtn = view.findViewById(R.id.leftbtn);
-        rightbtn = view.findViewById(R.id.rightbtn);
         vm = view.findViewById(R.id.vm);
+
+
 
         // img 담을 배열
         imgs = new ArrayList<>();
 
+        // RecyclerView
+        mRecyclerView = view.findViewById(R.id.recyclerView);
+        mList = new ArrayList<>();
+        mRecyclerViewAdapter = new RecyclerViewAdapter(mList);
 
-        ckimv1 = view.findViewById(R.id.ckimv1);
-        ckimv2 = view.findViewById(R.id.ckimv2);
-        ckimv3 = view.findViewById(R.id.ckimv3);
 
         // volley 연결 시 필요
         if (requestQueue == null) {
@@ -197,36 +205,17 @@ public class Fragment1 extends Fragment {
                                             img_url = new URL("http://222.102.104.237:5000/static/" + imgs.get(i));
                                             Log.d("img", String.valueOf(img_url));
 
-                                            switch (i){
-                                                case 0:
-                                                    // web에서 이미지를 가져와 ImageView에 저장할 Bitmap을 만든다.
-                                                    conn = (HttpURLConnection) img_url.openConnection();
-                                                    conn.setDoInput(true); // 서버로부터 응답 수신
-                                                    conn.connect(); //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
-                                                    is = conn.getInputStream(); //inputStream 값 가져오기
-                                                    bitmap1 = BitmapFactory.decodeStream(is); // Bitmap으로 변환
-                                                    break;
-                                                case 1:
-                                                    // web에서 이미지를 가져와 ImageView에 저장할 Bitmap을 만든다.
-                                                    conn = (HttpURLConnection) img_url.openConnection();
-                                                    conn.setDoInput(true); // 서버로부터 응답 수신
-                                                    conn.connect(); //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
-                                                    is = conn.getInputStream(); //inputStream 값 가져오기
-                                                    bitmap2 = BitmapFactory.decodeStream(is); // Bitmap으로 변환
-                                                    break;
-                                                case 2:
-                                                    // web에서 이미지를 가져와 ImageView에 저장할 Bitmap을 만든다.
-                                                    conn = (HttpURLConnection) img_url.openConnection();
-                                                    conn.setDoInput(true); // 서버로부터 응답 수신
-                                                    conn.connect(); //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
-                                                    is = conn.getInputStream(); //inputStream 값 가져오기
-                                                    bitmap3 = BitmapFactory.decodeStream(is); // Bitmap으로 변환
-                                                    break;
-                                            }
+                                            // web에서 이미지를 가져와 ImageView에 저장할 Bitmap을 만든다.
+                                            conn = (HttpURLConnection) img_url.openConnection();
+                                            conn.setDoInput(true); // 서버로부터 응답 수신
+                                            conn.connect(); //연결된 곳에 접속할 때 (connect() 호출해야 실제 통신 가능함)
+                                            is = conn.getInputStream(); //inputStream 값 가져오기
+                                            bitmap1 = BitmapFactory.decodeStream(is); // Bitmap으로 변환
+                                            RecyclerViewItem item =new RecyclerViewItem();
+                                            item.setCrackImg(bitmap1);
 
+                                            mList.add(item);
                                         }
-
-
                                     } catch (MalformedURLException e) {
                                         e.printStackTrace();
                                     } catch (IOException e) {
@@ -243,41 +232,14 @@ public class Fragment1 extends Fragment {
                                 //join() 메서드는 InterruptedException을 발생시킨다.
                                 uThread.join();
 
+                                mRecyclerView.setAdapter(mRecyclerViewAdapter);
+                                mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                                mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), RecyclerView.HORIZONTAL, false));
+
                                 //작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
                                 //UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지 지정
-                                ckimv1.setImageBitmap(bitmap1);
-                                ckimv2.setImageBitmap(bitmap2);
-                                ckimv3.setImageBitmap(bitmap3);
+//                                ckimv1.setImageBitmap(bitmap1);
 
-                                // 실시간 현황 슬라이드 오른쪽 버튼 클릭시
-                                rightbtn.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        if (idx == imgs.size() - 3) {
-                                            idx = 0;
-                                        } else {
-                                            idx++;
-                                        }
-//                                        ckimv1.setImageResource(Integer.parseInt(imgs.get(idx)));
-//                                        ckimv2.setImageResource(Integer.parseInt(imgs.get(idx + 1)));
-//                                        ckimv3.setImageResource(Integer.parseInt(imgs.get(idx + 2)));
-                                    }
-                                });
-
-                                // 실시간 현황 슬라이드 왼쪽 버튼 클릭 시
-                                leftbtn.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        if (idx == 0) {
-                                            idx = imgs.size() - 3;
-                                        } else {
-                                            idx--;
-                                        }
-//                                        ckimv1.setImageResource(Integer.parseInt(imgs.get(idx)));
-//                                        ckimv2.setImageResource(Integer.parseInt(imgs.get(idx + 1)));
-//                                        ckimv3.setImageResource(Integer.parseInt(imgs.get(idx + 2)));
-                                    }
-                                });
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
