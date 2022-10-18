@@ -45,6 +45,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -207,7 +208,7 @@ public class Fragment2 extends Fragment {
             public void onClick(View view) {
                 if (bitmap != null) {
                     progressDialog = new ProgressDialog(view.getContext());
-                    progressDialog.setMessage("분석중입니다.\n잠시만 기다려 주세요.");
+                    progressDialog.setMessage("분석중입니다.\n크랙을 감지하는데 30초정도 소요됩니다.\n잠시만 기다려 주세요.");
                     progressDialog.show();
 
                     sendImage();
@@ -344,10 +345,9 @@ public class Fragment2 extends Fragment {
                     public void onResponse(String response) {
                         progressDialog.dismiss();
                         if (response.equals("true")) {
-                            Toast.makeText(getActivity(), "업로드 성공", Toast.LENGTH_LONG).show();
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-                            builder.setTitle("분석결과").setMessage("분석결과 해당 사진은\n" + response + "(으)로 판별되었습니다.\n100포인트가 적립됩니다.");
+                            builder.setTitle("분석결과").setMessage("분석결과 해당 사진은\n크랙으로 판별되었습니다.\n100포인트가 적립됩니다.");
                             builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
@@ -357,7 +357,6 @@ public class Fragment2 extends Fragment {
                             AlertDialog alertDialog = builder.create();
                             alertDialog.show();
                         } else {
-                            Toast.makeText(getActivity(), "업로드 실패", Toast.LENGTH_LONG).show();
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
                             builder.setTitle("분석결과").setMessage("분석결과 해당 사진은 크랙이 감지되지 않았습니다.\n이용해주셔서 감사합니다.\n다음에 다시 이용해주세요.");
@@ -399,7 +398,16 @@ public class Fragment2 extends Fragment {
             }
         };
 
+        request.setRetryPolicy(new DefaultRetryPolicy(
+
+                30000 ,
+
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         request.setShouldCache(false);
+
         requestQueue.add(request);
     }
 

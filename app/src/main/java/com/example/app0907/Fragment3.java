@@ -365,7 +365,6 @@ public class Fragment3 extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         // 서버 연결 성공
-                        Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
                         tvAllPoint.setText(response);
                     }
                 },

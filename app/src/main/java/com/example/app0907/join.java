@@ -209,7 +209,6 @@ public class join extends AppCompatActivity {
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-                                    Toast.makeText(join.this, "회원가입 연결 성공", Toast.LENGTH_SHORT).show();
                                 }
                             },
                             new Response.ErrorListener() {

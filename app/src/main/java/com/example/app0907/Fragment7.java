@@ -95,7 +95,6 @@ public class Fragment7 extends Fragment {
             loginbtn.setVisibility(View.VISIBLE);
             logoutbtn.setVisibility(View.INVISIBLE);
         }else{
-            Toast.makeText(getActivity(), name, Toast.LENGTH_SHORT).show();
             logoutbtn.setVisibility(View.VISIBLE);
             loginbtn.setVisibility(View.INVISIBLE);
         }

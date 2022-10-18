@@ -135,7 +135,6 @@ public class Fragment8 extends Fragment {
                                 @Override
                                 public void onResponse(String response) {
                                     // 서버 응답 성공
-                                    Toast.makeText(getActivity(), "정보 수정 서버 연결 성공", Toast.LENGTH_SHORT).show();
                                 }
                             },
                             new Response.ErrorListener() {

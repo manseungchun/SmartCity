@@ -57,9 +57,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("test", Context.MODE_PRIVATE);
         name = sharedPreferences.getString("name","");
 
-        Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
-
-
         // 어플을 처음 실행시켰을때 첫 화면이 Fragment1이 되게 하기 위해서
         getSupportFragmentManager().beginTransaction().replace(
                 R.id.fl2,
