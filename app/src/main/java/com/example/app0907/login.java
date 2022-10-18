@@ -118,6 +118,7 @@ public class login extends AppCompatActivity {
                                                 editor.putString("addr",addr);
                                                 editor.putString("call",call);
                                                 editor.commit();    //최종 커밋. 커밋을 해야 저장이 된다.
+
                                             }
 
                                         }
@@ -144,6 +145,7 @@ public class login extends AppCompatActivity {
                                         overridePendingTransition(0,0);// 인텐트 애니메이션 없애기
                                         startActivity(intent);// 현재 액티비티 재실행 실시
                                         overridePendingTransition(0,0);// 인텐트 애니메이션 없애기
+                                        Toast.makeText(login.this, "비밀번호를 잘못입력하셨습니다", Toast.LENGTH_SHORT).show();
                                     }catch (Exception e){
                                         e.printStackTrace();
                                     }
